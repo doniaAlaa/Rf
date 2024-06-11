@@ -523,7 +523,7 @@ class LeavesFirstCard extends StatelessWidget {
                                                 buttonHeight: 40,
                                                 buttonTitleStyle: TextStyle(fontSize: 14,color: Colors.white),
                                                 buttonTile: 'Approve', onPress: (){
-                                                  LeavesListCubit.get(context).actionOnLeaveReqquest(context: context, employeeId: leavesListModel.employeeId??'', requestNo: leavesListModel.vacationNO.toString()??'', comment: '');
+                                                  LeavesListCubit.get(context).acceptLeaveReqquest(context: context, employeeId: leavesListModel.employeeId??'', requestNo: leavesListModel.vacationNO.toString()??'', comment: '');
                                                 }),
                                             )
                                           ],
