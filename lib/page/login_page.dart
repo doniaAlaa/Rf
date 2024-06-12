@@ -65,10 +65,14 @@ class _LoginPageState extends State<LoginPage>
         },
         builder: (context, state) {
           return Scaffold(
-              // appBar: AppBar(
-                 backgroundColor: const Color(0xfffffbff),
-              //   title: const Center(child: Text('Rf Mobile')),
-              // ),
+              appBar: AppBar(
+          backgroundColor: Colors.red[100],
+          title: const Text('RF Mobile'),
+          centerTitle: true,
+          leading: SizedBox(),
+        ),
+             backgroundColor: const Color(0xfffffbff),
+
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: SingleChildScrollView(
@@ -78,7 +82,7 @@ class _LoginPageState extends State<LoginPage>
                     children: [
                       Image.asset(
                         'assets/images/logo.jpg',
-                        height: 300,
+                        height: 250,
                       ),
                       const SizedBox(height: 16.0),
                       Padding(
@@ -250,6 +254,7 @@ class _LoginPageState extends State<LoginPage>
                                     }, buttonTile: 'Login',
                                   )),
                       ),
+                      SizedBox(height: 40,)
                       // PrimaryAppButton(buttonTile: 'buttonTile', onPress: ()async{
                       //       String?   oo =        await     SecureStorage().getUserModel();
 

@@ -27,7 +27,7 @@ class LoginCubit extends Cubit<LoginStates> {
       required String url,
       required String companyId,
       required BuildContext context}) async {
-   // emit(LoginLoadingState());
+    emit(LoginLoadingState());
     ResponseModel? response = await NetworkHelper().get(
         endpoint:
            '$url/api/Employees/Login?CmpId=$companyId&username=$username&userPassword=$password',
@@ -45,6 +45,7 @@ class LoginCubit extends Cubit<LoginStates> {
 
        userCompanyId =  companyId;
        userBaseUrl = url;
+       userName = response.data['nameEn'];
 
 
          await api

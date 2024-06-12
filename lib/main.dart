@@ -15,6 +15,8 @@ import 'package:test2/utils/local_db.dart';
 
 var userCompanyId;
 var userBaseUrl;
+var userName;
+
 void main() async{
   HttpOverrides.global = MyHttpOverrides();
    WidgetsFlutterBinding.ensureInitialized();

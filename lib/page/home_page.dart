@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test2/core/const/app_routers.dart';
+import 'package:test2/home/widget/app_menu_widget.dart';
 import 'package:test2/page/attendance_menu.dart';
 import 'package:test2/page/control_panel_presenter.dart';
 
@@ -31,7 +32,37 @@ class HomePage extends StatelessWidget {
          
         // Theme.of(context).colorScheme.inversePrimary,
         appBar:  AppBar(
-          leading: Icon(Icons.menu,color: Colors.white,),
+          leading: InkWell(
+            onTap: (){
+              //AppMenu().openAppMenu(context: context);
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 200,
+                    color: Colors.white,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'This is a BottomSheet',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();                   },
+                            child: Text('Close BottomSheet'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+ 
+            },
+            child: Icon(Icons.menu,color: Colors.white,)),
             backgroundColor: Colors.red[100],
             centerTitle: false,
             shape: Border(

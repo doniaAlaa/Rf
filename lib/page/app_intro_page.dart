@@ -69,7 +69,7 @@ class _AppIntroPageState extends State<AppIntroPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red[100],
-          title: const Text('RF Mobile'),
+          title: Center(child: const Text('RF Mobile')),
         ),
         body: FutureBuilder<void>(
             future: _handleLocationPermission(),

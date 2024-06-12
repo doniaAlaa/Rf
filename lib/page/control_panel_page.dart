@@ -10,6 +10,7 @@ import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/const/app_routers.dart';
 import 'package:test2/core/recognition.dart';
 import 'package:test2/core/recognizer.dart';
+import 'package:test2/home/widget/app_menu_widget.dart';
 import 'package:test2/models/employee.dart';
 import 'package:test2/page/attendance_menu.dart';
 import 'package:test2/page/checkin_checkout_page.dart';
@@ -240,7 +241,12 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
          
         // Theme.of(context).colorScheme.inversePrimary,
         appBar:  AppBar(
-          leading: Icon(Icons.menu,color: Colors.white,),
+          leading: InkWell(
+            onTap: (){
+               AppMenu().openAppMenu(context: context);
+             
+            },
+            child: Icon(Icons.menu,color: Colors.white,)),
             backgroundColor: Colors.red[100],
             centerTitle: false,
             shape: Border(
