@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/const/app_colors.dart';
 import 'package:test2/core/reusable_widgets/app_button.dart';
+import 'package:test2/page/login_page.dart';
 
 
 class Logout{
@@ -52,15 +54,22 @@ class Logout{
                     children: [
                       PrimaryAppButton(
                         buttonWidth: 100,
-                                                buttonHeight: 40,
+                           buttonHeight: 40,
                                                 // buttonColor: Colors.green
                                           
-                                                buttonTitleStyle: TextStyle(fontSize: 14,color: Colors.white),
+                          buttonTitleStyle: TextStyle(fontSize: 14,color: Colors.white),
                       
                       onPress: (){
-                      //  context.pop();
-                        Navigator.pop(context);
-                      }, buttonTile: 'Delete',),
+                        SecureStorage().clearUserAccount();
+                        Navigator.pushAndRemoveUntil(
+                        context, 
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage()
+                        ), 
+                      ModalRoute.withName("/Home")
+                      );
+
+                      }, buttonTile: 'Confirm',),
                       SizedBox(width: 10,),
                        PrimaryAppButton(
                             buttonWidth: 100,

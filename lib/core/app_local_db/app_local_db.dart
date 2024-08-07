@@ -11,6 +11,7 @@ class SecureStorage {
   final String _userModel= 'userModel';
 
 
+
  Future setUserModel(String userModel) async {
     await storage.write(key: _userModel, value: userModel);
   }
@@ -21,6 +22,10 @@ class SecureStorage {
 
   Future setUserName(String username) async {
     await storage.write(key: _keyUserName, value: username);
+  }
+
+  Future clearUserAccount() async {
+    await storage.delete(key: _keyUserName, );
   }
 
   Future<String?> getUserName() async {

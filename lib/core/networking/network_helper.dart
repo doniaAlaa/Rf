@@ -7,6 +7,7 @@ import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/app_response_model/app_response_model.dart';
 import 'package:test2/core/const/api_error_handler.dart';
 import 'package:test2/core/models/user_model.dart';
+import 'package:test2/main.dart';
 
 
 class NetworkHelper {
@@ -72,8 +73,7 @@ print('response:${response}');
       CancelToken? cancelToken,
       required BuildContext context,
       required SendRequestFrom sendRequestFrom}) async {
-    print('object');
-    try {
+   // try {
       print('gggg');
       final response = await _dio.post(
         endpoint,
@@ -82,7 +82,7 @@ print('response:${response}');
 
         options: Options(
           // headers: {"key": "RequesterId", "value": "2", "type": "text"},
-          headers: {"RequesterId": 4},
+          headers: {"RequesterId": requesterId},
         ),
         // cancelToken: cancelToken ?? _cancelToken,
       );
@@ -90,9 +90,10 @@ print('response:${response}');
       ResponseModel result = ResponseModel.fromJson(response.data!);
 
       return result;
-    } catch (e) {
-      print(e);
-      DioApisExceptions().handleDioError(e, sendRequestFrom, context);
-    }
+    // } catch (e) {
+    //   print(e);
+    //   DioApisExceptions().handleDioError(e, sendRequestFrom, context);
+    //   return Re
+    // }
   }
 }

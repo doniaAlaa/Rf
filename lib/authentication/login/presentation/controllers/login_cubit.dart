@@ -45,6 +45,7 @@ class LoginCubit extends Cubit<LoginStates> {
 
        userCompanyId =  companyId;
        userBaseUrl = url;
+       requesterId = int.parse(response.data['id']);
        userName = response.data['nameEn'];
 
 

@@ -1,163 +1,165 @@
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:test2/core/app_response_model/app_response_model.dart';
-import 'package:test2/core/const/api_error_handler.dart';
-import 'package:test2/core/networking/network_helper.dart';
-import 'package:test2/new_leaves/models/get_vacation_types_model.dart';
-import 'package:test2/new_leaves/new_leaves_state.dart';
+// import 'package:test2/core/app_response_model/app_response_model.dart';
+// import 'package:test2/core/const/api_error_handler.dart';
+// import 'package:test2/core/networking/network_helper.dart';
+// import 'package:test2/main.dart';
+// import 'package:test2/new_leaves/models/get_vacation_types_model.dart';
+// import 'package:test2/new_leaves/new_leaves_state.dart';
 
-class NewLeavesCubit extends Cubit<NewLeavesState> {
-  NewLeavesCubit(NewLeavesInitState super.initialState);
+// class NewLeavesCubit extends Cubit<NewLeavesState> {
+//   NewLeavesCubit(NewLeavesInitState super.initialState);
 
-  static NewLeavesCubit get(context) => BlocProvider.of(context);
+//   static NewLeavesCubit get(context) => BlocProvider.of(context);
 
-  // String setFromDate = 'Select Date';
-  // String setToDate = 'Select Date';
-  FirstModel? firstModel;
+//   // String setFromDate = 'Select Date';
+//   // String setToDate = 'Select Date';
+//   FirstModel? firstModel;
 
-  getVacationTypes({required int cmpId, required BuildContext context}) async {
-    emit(VacationTypesLoadingState());
-    ResponseModel response = await NetworkHelper().get(
-        endpoint:
-            'https://jazhotelshr.com/Apitest/api/Vacations/GetVacationTypes?cmpId=100',
-        context: context);
-    print('response =====${response.data?.toString()}');
-    List body = response.data;
+//   getVacationTypes({required int cmpId, required BuildContext context}) async {
+//     emit(VacationTypesLoadingState());
+//     ResponseModel response = await NetworkHelper().get(
+//         endpoint:
+//             'https://jazhotelshr.com/Apitest/api/Vacations/GetVacationTypes?cmpId=100',
+//         context: context);
+//     print('response =====${response.data?.toString()}');
+//     List body = response.data;
 
-    List<VacationType> vacationTypeList =
-        body.map((json) => VacationType.fromJson(json)).toList();
-    emit(VacationTypesSuccessState(
-        getVaccationTypesModel:
-            GetVaccationTypesModel(vacationTypes: vacationTypeList)
-            ));
-  }
+//     List<VacationType> vacationTypeList =
+//         body.map((json) => VacationType.fromJson(json)).toList();
+//     emit(VacationTypesSuccessState(
+//         getVaccationTypesModel:
+//             GetVaccationTypesModel(vacationTypes: vacationTypeList)
+//             ));
+//   }
 
-  selectFromDate({required String fromDate}) {
-    // setFromDate = fromDate;
-    emit(SetFromDateState(setFromDate: fromDate));
-    // setFromDate = fromDate;
-    // emit(state);
-  }
+ 
+//   selectFromDate({required String fromDate}) {
+//     // setFromDate = fromDate;
+//     emit(SetFromDateState(setFromDate: fromDate));
+//     // setFromDate = fromDate;
+//     // emit(state);
+//   }
 
-  TestState1() {
-    firstModel?.copyWith(firstText: Colors.black12);
-    emit(NewLeavesInitState(
-        firstModel: firstModel?.copyWith(firstText: Colors.black12)));
-  }
+//   TestState1() {
+//     firstModel?.copyWith(firstText: Colors.black12);
+//     emit(NewLeavesInitState(
+//         firstModel: firstModel?.copyWith(firstText: Colors.black12)));
+//   }
 
-  TestState2() {
-    firstModel?.copyWith(secondText: Colors.green);
+//   TestState2() {
+//     firstModel?.copyWith(secondText: Colors.green);
 
-    emit(state);
-  }
+//     emit(state);
+//   }
 
-  selectToDate({required String toDate}) {
-    final state = SetToDateState(setToDate: toDate);
-    emit(state);
-  }
+//   selectToDate({required String toDate}) {
+//     final state = SetToDateState(setToDate: toDate);
+//     emit(state);
+//   }
 
-  chooseFromDate({required bool chooseFromDate}) {
-    // final state = ChooseFromDateState();
-    // if (state.chooseFromDate == false) {
-    //   emit(ChooseFromDateState(chooseFromDate: true));
-    // } else {
-    //   emit(ChooseFromDateState(chooseFromDate: false));
-    // }
-    emit(ChooseFromDateState(chooseFromDate: chooseFromDate));
-  }
+//   chooseFromDate({required bool chooseFromDate}) {
+//     // final state = ChooseFromDateState();
+//     // if (state.chooseFromDate == false) {
+//     //   emit(ChooseFromDateState(chooseFromDate: true));
+//     // } else {
+//     //   emit(ChooseFromDateState(chooseFromDate: false));
+//     // }
+//     emit(ChooseFromDateState(chooseFromDate: chooseFromDate));
+//   }
 
-  chooseToDate({required bool chooseToDate}) {
-    final state = ChooseToDateState(chooseToDate: chooseToDate);
-    emit(state);
-  }
+//   chooseToDate({required bool chooseToDate}) {
+//     final state = ChooseToDateState(chooseToDate: chooseToDate);
+//     emit(state);
+//   }
 
-  chooseLeavesType(
-      {required String selectedId,
-      required int selectedIndex,
-      required String leaveType}) {
-    final state = SetLeavesTypesState(
-        selectedIndex: selectedIndex,
-        selectedVacId: selectedId,
-        selectedVacTitle: leaveType);
-    emit(state);
-  }
+//   chooseLeavesType(
+//       {required String selectedId,
+//       required int selectedIndex,
+//       required String leaveType}) {
+//     final state = SetLeavesTypesState(
+//         selectedIndex: selectedIndex,
+//         selectedVacId: selectedId,
+//         selectedVacTitle: leaveType);
+//     emit(state);
+//   }
 
-  // test() {
-  //   // bool cc = s;
-  //   // final state = state.cop
-  //   final state = NewLeavesInitState();
-  //   state.test?.copyWith(to_token: 'ppp');
-  //   emit(state);
-  //   print('object');
-  //   print(state.test?.to_token);
-  // }
+//   // test() {
+//   //   // bool cc = s;
+//   //   // final state = state.cop
+//   //   final state = NewLeavesInitState();
+//   //   state.test?.copyWith(to_token: 'ppp');
+//   //   emit(state);
+//   //   print('object');
+//   //   print(state.test?.to_token);
+//   // }
 
-  applyNewLeave(
-      {required BuildContext context,
-      required Map<String, dynamic> leaveData}) async {
-    ResponseModel? response;
-    print(leaveData.toString());
-    response = await NetworkHelper().post(
-        endpoint:
-            'https://jazhotelshr.com/Apitest/api/Vacations/RequestVacation',
-        context: context,
-        data: leaveData,
-        sendRequestFrom: SendRequestFrom.button);
+//   applyNewLeave(
+//       {required BuildContext context,
+//       required Map<String, dynamic> leaveData}) async {
+//     ResponseModel? response;
+//     print(leaveData.toString());
+//     response = await NetworkHelper().post(
+//         endpoint:
+//             'https://jazhotelshr.com/Apitest/api/Vacations/RequestVacation',
+//         context: context,
+//         data: leaveData,
+//         sendRequestFrom: SendRequestFrom.button);
 
-    if (response != null) {
-      if (response.succeess == true) {
-         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Color.fromARGB(255, 79, 179, 85),
-          content: Text(
-            response.message ?? '',
-            style: const TextStyle(fontSize: 15,color: Colors.white),
-          ),
-        ));
-      } else {
-        return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(
-            response.message ?? '',
-            style: const TextStyle(fontSize: 15),
-          ),
-        ));
-      }
-    }
-  }
+//     if (response != null) {
+//       if (response.succeess == true) {
+//          return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//           backgroundColor: Color.fromARGB(255, 79, 179, 85),
+//           content: Text(
+//             response.message ?? '',
+//             style: const TextStyle(fontSize: 15,color: Colors.white),
+//           ),
+//         ));
+//       } else {
+//         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//           backgroundColor: Colors.red,
+//           content: Text(
+//             response.message ?? '',
+//             style: const TextStyle(fontSize: 15),
+//           ),
+//         ));
+//       }
+//     }
+//   }
 
-  tesst({
-    required BuildContext context,
-  }) async {
-    // print('hhhhhhhhhhhhhhhhhhhhhhhh');
-    ResponseModel? response;
-    response = await NetworkHelper().post(
-        endpoint:
-            'https://jazhotelshr.com/Apitest/api/Vacations/ApproveVacationRequest?CompanyId=100&RequestNo=2766&EmployeeId=VM0371&Comment=test',
-        context: context,
-        // data: leaveData,
-        sendRequestFrom: SendRequestFrom.button);
+//   tesst({
+//     required BuildContext context,
+//   }) async {
+//     // print('hhhhhhhhhhhhhhhhhhhhhhhh');
+//     ResponseModel? response;
+//     response = await NetworkHelper().post(
+//         endpoint:
+//             'https://jazhotelshr.com/Apitest/api/Vacations/ApproveVacationRequest?CompanyId=100&RequestNo=2766&EmployeeId=VM0371&Comment=test',
+//         context: context,
+//         // data: leaveData,
+//         sendRequestFrom: SendRequestFrom.button);
 
-    if (response != null) {
-      if (response.succeess == true) {
-        print('lll');
-      } else {
-        return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(
-            response.message ?? '',
-            style: const TextStyle(fontSize: 15),
-          ),
-        ));
-      }
-    }
-  }
+//     if (response != null) {
+//       if (response.succeess == true) {
+//         print('lll');
+//       } else {
+//         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//           backgroundColor: Colors.red,
+//           content: Text(
+//             response.message ?? '',
+//             style: const TextStyle(fontSize: 15),
+//           ),
+//         ));
+//       }
+//     }
+//   }
 
-   calculateLeavesDays({required DateTime to, required DateTime from}){
-       final difference = to.difference(from).inDays;
-       final state = SetApplyDaysState(applyDays: difference.toString());
-       emit(state);
+//    calculateLeavesDays({required DateTime to, required DateTime from}){
+//        final difference = to.difference(from).inDays;
+//        final state = SetApplyDaysState(applyDays: difference.toString());
+//        emit(state);
 
-   }
-}
+//    }
+// }

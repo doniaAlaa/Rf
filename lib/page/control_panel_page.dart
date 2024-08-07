@@ -62,11 +62,11 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
 
   late int _employeeId;
   late String _employeeName;
-  // late bool _faceRequired;
-       bool? _faceRequired;
+   late bool _faceRequired;
+      // bool? _faceRequired;
 
   String? _deviceId;
-  bool? faceRequired;
+  // bool? faceRequired;
    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
      final SecureStorage secureStorage = SecureStorage();
 
@@ -92,10 +92,11 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
   void initState() {
     super.initState();
    
-
+  print('objectbbbbbbbbbb');
     _employeeId = int.parse(widget.loginResult['id']);
     _employeeName = widget.loginResult['nameEn'];
-  //  _faceRequired = widget.loginResult['faceRequired'];
+
+   _faceRequired = widget.loginResult['faceRequired'];
    // _faceRequired = false;
     _deviceId = widget.loginResult['macAddress'];
     
@@ -133,6 +134,7 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
   }
 
     isFaceRequired() async{
+
   //       String? face = await secureStorage.getFaceRequired();
   //       faceRequired = face != null ?true:null;
   //       if(faceRequired == null && widget.loginResult['faceRequired'] == true){
@@ -165,10 +167,9 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
   //   }
 
     //////////////////////////
-     _faceRequired = widget.loginResult['faceRequired'];
-     print(_faceRequired);
+     //_faceRequired = widget.loginResult['faceRequired'];
 
-     if (_faceRequired??false) {
+     if (_faceRequired) {
       print('_initFaceDetectionValues');
       _initFaceDetectionValues();
       setFaceReq(isRequired: _faceRequired??false);

@@ -16,6 +16,7 @@ import 'package:test2/utils/local_db.dart';
 var userCompanyId;
 var userBaseUrl;
 var userName;
+int requesterId = -1;
 
 void main() async{
   HttpOverrides.global = MyHttpOverrides();

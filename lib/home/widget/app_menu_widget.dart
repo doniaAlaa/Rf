@@ -104,7 +104,7 @@ class AppMenu{
                                                       color: AppColors.primaryColor,
 
                           ),
-                          width: 100,
+                          width: 60,
                          ),
                             SizedBox(height: 20,),
 

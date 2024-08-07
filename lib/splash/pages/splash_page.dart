@@ -28,9 +28,17 @@ class _SplashPageState extends State<SplashPage> {
    @override
   void initState() {
     super.initState();
-   Future.delayed(const Duration(seconds: 3), () {
+   Future.delayed(const Duration(seconds: 3), () async{
     //isUserLoggedIn();
-             Navigator.pushNamed(context, AppRoutes.loginPage);
+              String? user =  await SecureStorage().getUserModel();
+              if(user != null){
+                  Navigator.pushNamed(context, AppRoutes.homePage);
+
+              }else{
+                   Navigator.pushNamed(context, AppRoutes.loginPage);
+
+              }
+
 
         });
 
