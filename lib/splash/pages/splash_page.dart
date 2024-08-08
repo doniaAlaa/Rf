@@ -1,4 +1,4 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:test2/core/app_local_db/app_local_db.dart';
@@ -15,8 +15,10 @@ class _SplashPageState extends State<SplashPage> {
 
   isUserLoggedIn()async{
     String? userData = await SecureStorage().getUserModel();
-    if (userData != null){
+    print(userData);
 
+    if (userData != null){
+         print(userData);
             Navigator.pushNamed(context, AppRoutes.homePage);
 
     }else{
@@ -31,6 +33,8 @@ class _SplashPageState extends State<SplashPage> {
    Future.delayed(const Duration(seconds: 3), () async{
     //isUserLoggedIn();
               String? user =  await SecureStorage().getUserModel();
+              print(user);
+
               if(user != null){
                   Navigator.pushNamed(context, AppRoutes.homePage);
 
