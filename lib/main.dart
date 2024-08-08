@@ -9,8 +9,8 @@ import 'package:test2/authentication/login/presentation/controllers/login_state.
 import 'package:test2/core/app_local_db/app_cached_db.dart';
 import 'package:test2/core/const/app_routers.dart';
 import 'package:test2/core/dio_cosumer_security.dart';
-import 'package:test2/leaves_list/leaves_list_cubit.dart';
-import 'package:test2/leaves_list/leaves_list_state.dart';
+// import 'package:test2/leaves_list/leaves_list_cubit.dart';
+// import 'package:test2/leaves_list/leaves_list_state.dart';
 import 'package:test2/utils/local_db.dart';
 
 var userCompanyId;
@@ -23,6 +23,7 @@ void main() async{
    WidgetsFlutterBinding.ensureInitialized();
   await AppCachedDB.init(); // initialize here ! important
   print('maiiin');
+  print('donia did it');
 
   await Hive.initFlutter();
   await HiveBoxes.initialize();
