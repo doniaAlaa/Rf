@@ -22,8 +22,7 @@ void main() async{
   HttpOverrides.global = MyHttpOverrides();
    WidgetsFlutterBinding.ensureInitialized();
   await AppCachedDB.init(); // initialize here ! important
-  print('maiiin');
-  print('donia did it well');
+
 
   await Hive.initFlutter();
   await HiveBoxes.initialize();

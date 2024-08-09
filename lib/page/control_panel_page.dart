@@ -7,16 +7,17 @@ import 'package:image/image.dart' as img;
 import 'package:m7_livelyness_detection/index.dart';
 import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
 import 'package:test2/core/app_local_db/app_local_db.dart';
-import 'package:test2/core/const/app_routers.dart';
+import 'package:test2/core/const/app_colors.dart';
+// import 'package:test2/core/const/app_routers.dart';
 import 'package:test2/core/recognition.dart';
 import 'package:test2/core/recognizer.dart';
-import 'package:test2/home/widget/app_menu_widget.dart';
+// import 'package:test2/home/widget/app_menu_widget.dart';
 import 'package:test2/models/employee.dart';
-import 'package:test2/page/attendance_menu.dart';
+// import 'package:test2/page/attendance_menu.dart';
 import 'package:test2/page/checkin_checkout_page.dart';
 import 'package:test2/page/control_panel_presenter.dart';
 import 'package:test2/page/home_page.dart';
-import 'package:test2/page/leaves/leaves_menu_options.dart';
+// import 'package:test2/page/leaves/leaves_menu_options.dart';
 import 'package:test2/utils/local_db.dart';
 
 // import 'package:settings_ui/settings_ui.dart';
@@ -172,7 +173,7 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
      if (_faceRequired) {
       print('_initFaceDetectionValues');
       _initFaceDetectionValues();
-      setFaceReq(isRequired: _faceRequired??false);
+      setFaceReq(isRequired: _faceRequired);
 
     } else {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -241,140 +242,141 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
          
          
         // Theme.of(context).colorScheme.inversePrimary,
-        appBar:  AppBar(
-          leading: InkWell(
-            onTap: (){
-               AppMenu().openAppMenu(context: context);
-             
-            },
-            child: Icon(Icons.menu,color: Colors.white,)),
-            backgroundColor: Colors.red[100],
-            centerTitle: false,
-            shape: Border(
-              bottom: BorderSide(
-                color: Colors.white,
-                width: 1
-              )
-            ),
-             elevation: 4,
-            title: const Text('Home',style: TextStyle(color: Colors.white),),
-          ),
+        // appBar:  AppBar(
+        //   leading: InkWell(
+        //     onTap: (){
+        //        AppMenu().openAppMenu(context: context);
+        //
+        //     },
+        //     child: Icon(Icons.menu,color: Colors.white,)),
+        //     backgroundColor: Colors.red[100],
+        //     centerTitle: false,
+        //     shape: Border(
+        //       bottom: BorderSide(
+        //         color: Colors.white,
+        //         width: 1
+        //       )
+        //     ),
+        //      elevation: 4,
+        //     title: const Text('Home',style: TextStyle(color: Colors.white),),
+        //   ),
        
-        body: _inProgress
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            :
-      
-            SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const Row(
-                  children: [
-                    SizedBox(
-                      height: 80,
-                      width: 80,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                            color: Colors.white, shape: BoxShape.circle),
-                        child: Center(child: Text('NO IMAGE')),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'ID: 24365738',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          'ID: 24365738',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          'Mobile applications',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                // InkWell(
-                //   onTap: (){
-                //                           print('0000000000');
-
-                //                                                               print('nnnnnnnnnnnnnnn${widget.loginResult}');
-                //   },
-                //   child: Text('data')),
-                GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: list.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        mainAxisExtent: 180,
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 4,
-                        mainAxisSpacing: 4),
-                    itemBuilder: ((context, index) {
-                      return InkWell(
-                        onTap: () {
-                          if(index == 0){
-                           Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>  AttendanceMenu(
-                                 presenter: _presenter,
-                                 businessUnitResult: widget.businessUnitResult,
-                                 loginResult: widget.loginResult,
-                            )),
-                          );
-
-
-
-                          }else{
-                                Navigator.pushNamed(context, AppRoutes.leavesMenuOptions);
-
-                          }
-                        },
-                        child: DecoratedBox(
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(5))),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                list[index]['title'],
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 88, 88, 88)),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Icon(
-                                list[index]['icon'],
-                                color: list[index]['color'],
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }))
-              ],
-            ),
-          ),
-        ),
+        body: Center(child: CircularProgressIndicator(color: AppColors.primaryColor,strokeWidth: 1,))
+        // _inProgress
+        //     ? const Center(
+        //         child: CircularProgressIndicator(),
+        //       )
+        //     :
+        //
+        //     SingleChildScrollView(
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 10),
+        //     child: Column(
+        //       children: [
+        //         const SizedBox(
+        //           height: 20,
+        //         ),
+        //         const Row(
+        //           children: [
+        //             SizedBox(
+        //               height: 80,
+        //               width: 80,
+        //               child: DecoratedBox(
+        //                 decoration: BoxDecoration(
+        //                     color: Colors.white, shape: BoxShape.circle),
+        //                 child: Center(child: Text('NO IMAGE')),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               width: 15,
+        //             ),
+        //             Column(
+        //               mainAxisAlignment: MainAxisAlignment.start,
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               children: [
+        //                 Text(
+        //                   'ID: 24365738',
+        //                   style: TextStyle(color: Colors.white),
+        //                 ),
+        //                 Text(
+        //                   'ID: 24365738',
+        //                   style: TextStyle(color: Colors.white),
+        //                 ),
+        //                 Text(
+        //                   'Mobile applications',
+        //                   style: TextStyle(color: Colors.white),
+        //                 ),
+        //               ],
+        //             )
+        //           ],
+        //         ),
+        //         const SizedBox(
+        //           height: 20,
+        //         ),
+        //         // InkWell(
+        //         //   onTap: (){
+        //         //                           print('0000000000');
+        //
+        //         //                                                               print('nnnnnnnnnnnnnnn${widget.loginResult}');
+        //         //   },
+        //         //   child: Text('data')),
+        //         GridView.builder(
+        //             shrinkWrap: true,
+        //             itemCount: list.length,
+        //             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //                 mainAxisExtent: 180,
+        //                 crossAxisCount: 3,
+        //                 crossAxisSpacing: 4,
+        //                 mainAxisSpacing: 4),
+        //             itemBuilder: ((context, index) {
+        //               return InkWell(
+        //                 onTap: () {
+        //                   if(index == 0){
+        //                    Navigator.push(
+        //                     context,
+        //                     MaterialPageRoute(builder: (context) =>  AttendanceMenu(
+        //                          presenter: _presenter,
+        //                          businessUnitResult: widget.businessUnitResult,
+        //                          loginResult: widget.loginResult,
+        //                     )),
+        //                   );
+        //
+        //
+        //
+        //                   }else{
+        //                         Navigator.pushNamed(context, AppRoutes.leavesMenuOptions);
+        //
+        //                   }
+        //                 },
+        //                 child: DecoratedBox(
+        //                   decoration: const BoxDecoration(
+        //                       color: Colors.white,
+        //                       borderRadius: BorderRadius.all(Radius.circular(5))),
+        //                   child: Column(
+        //                     mainAxisAlignment: MainAxisAlignment.center,
+        //                     crossAxisAlignment: CrossAxisAlignment.center,
+        //                     children: [
+        //                       Text(
+        //                         list[index]['title'],
+        //                         style: const TextStyle(
+        //                             color: Color.fromARGB(255, 88, 88, 88)),
+        //                       ),
+        //                       const SizedBox(
+        //                         height: 8,
+        //                       ),
+        //                       Icon(
+        //                         list[index]['icon'],
+        //                         color: list[index]['color'],
+        //                       )
+        //                     ],
+        //                   ),
+        //                 ),
+        //               );
+        //             }))
+        //       ],
+        //     ),
+        //   ),
+        // ),
          
 
          ///////////////////////////////
@@ -464,7 +466,7 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
   // }
 
   Future<void> _register() async {
-    if (_faceRequired??false) {
+    if (_faceRequired) {
       setState(() => _image = null);
       final M7CapturedImage? response = await M7LivelynessDetection.instance.detectLivelyness(
         context,
@@ -723,7 +725,7 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    if (_faceRequired??false)
+                    if (_faceRequired)
                       Image.file(
                         croppedFace!,
                         width: 200,
@@ -847,7 +849,7 @@ return showDialog(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    if (_faceRequired??false)
+                    if (_faceRequired)
                       Image.file(
                         croppedFace!,
                         width: 200,

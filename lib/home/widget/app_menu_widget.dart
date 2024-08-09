@@ -1,11 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/const/app_colors.dart';
+import 'package:test2/core/models/user_model.dart';
 import 'package:test2/home/widget/logout_popup_widget.dart';
-import 'package:test2/main.dart';
+// import 'package:test2/main.dart';
 
 class AppMenu{
   
-  openAppMenu({required BuildContext context}){
+  openAppMenu({required BuildContext context}) async{
+
+    String? user =  await SecureStorage().getUserModel();
+
+    // var encodedString = jsonEncode(user!);
+
+    Map<String, dynamic> valueMap = json.decode(user!);
+
+    UserModel userData = UserModel.fromJson(valueMap);
    return showModalBottomSheet<void>(
                 context: context,
                 isScrollControlled: true,
@@ -88,7 +100,7 @@ class AppMenu{
                               ),
                             ),
                           ),
-                           Text('${userName.toString()}',style: TextStyle(
+                           Text('${userData.nameEn.toString()}',style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 26,fontWeight: FontWeight.w900
                                             ),),

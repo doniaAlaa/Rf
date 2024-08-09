@@ -34,32 +34,32 @@ class HomePage extends StatelessWidget {
         appBar:  AppBar(
           leading: InkWell(
             onTap: (){
-              //AppMenu().openAppMenu(context: context);
-              showModalBottomSheet<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return Container(
-                    height: 200,
-                    color: Colors.white,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'This is a BottomSheet',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();                   },
-                            child: Text('Close BottomSheet'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
+              AppMenu().openAppMenu(context: context);
+              // showModalBottomSheet<void>(
+              //   context: context,
+              //   builder: (BuildContext context) {
+              //     return Container(
+              //       height: 200,
+              //       color: Colors.white,
+              //       child: Center(
+              //         child: Column(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: <Widget>[
+              //             Text(
+              //               'This is a BottomSheet',
+              //               style: TextStyle(fontSize: 20),
+              //             ),
+              //             ElevatedButton(
+              //               onPressed: () {
+              //                 Navigator.of(context).pop();                   },
+              //               child: Text('Close BottomSheet'),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // );
  
             },
             child: Icon(Icons.menu,color: Colors.white,)),

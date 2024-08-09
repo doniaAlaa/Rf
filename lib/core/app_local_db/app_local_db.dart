@@ -25,7 +25,7 @@ class SecureStorage {
   }
 
   Future clearUserAccount() async {
-    await storage.delete(key: _keyUserName, );
+    await storage.delete(key: _userModel, );
   }
 
   Future<String?> getUserName() async {
