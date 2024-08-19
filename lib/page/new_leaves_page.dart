@@ -977,7 +977,7 @@ class NewLeavesPage extends StatelessWidget {
                     //   child: Text(data,)),
 
                     const Text(
-                      'New Leaves',
+                      'New Leave',
                       style: TextStyle(
                           fontSize: 40,
                           color: Colors.black,

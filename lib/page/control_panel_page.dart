@@ -8,6 +8,7 @@ import 'package:m7_livelyness_detection/index.dart';
 import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
 import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/const/app_colors.dart';
+import 'package:test2/core/const/app_routers.dart';
 // import 'package:test2/core/const/app_routers.dart';
 import 'package:test2/core/recognition.dart';
 import 'package:test2/core/recognizer.dart';
@@ -185,8 +186,10 @@ class _ControlPanelPageState extends State<ControlPanelPage> implements ControlP
                   print('_register');
 
         } else {
+
+          Navigator.pushNamed(context, AppRoutes.homePage);
           _showLogInSuccessDialog();
-                print('_showLogInSuccessDialog');
+          print('_showLogInSuccessDialog');
 
         }
       });

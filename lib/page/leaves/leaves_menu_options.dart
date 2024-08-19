@@ -51,7 +51,7 @@ class LeavesMenuOptions extends StatelessWidget {
                       blurRadius: 15
                       )
                       ],
-                ),child: Center(child: const Text('New Leaves',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),)),),
+                ),child: Center(child: const Text('New Leave',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),)),),
               ),
             ),
           ),

@@ -11,6 +11,7 @@ import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/app_response_model/app_response_model.dart';
 // import 'package:test2/core/models/user_model.dart';
 import 'package:test2/core/networking/network_helper.dart';
+import 'package:test2/home/cubit/home_cubit.dart';
 import 'package:test2/main.dart';
 import 'package:test2/page/control_panel_page.dart';
 
@@ -35,10 +36,9 @@ class LoginCubit extends Cubit<LoginStates> {
        //   'https://jazhotelshr.com/Apitest/api/Employees/Login?UserName=2&UserPassword=1&CmpID=100',
         context: context);
 
-   
        if(response != null){
          emit(LoginSuccessState());
-         print(response.toString());
+
          if(response.succeess == true){
            emit(LoginSuccessState());
 
@@ -52,6 +52,8 @@ class LoginCubit extends Cubit<LoginStates> {
            userBaseUrl = url;
            requesterId = int.parse(response.data['id']);
            userName = response.data['nameEn'];
+
+       //    HomeCubit().getUserProfileData( context: context);
 
 
            await api

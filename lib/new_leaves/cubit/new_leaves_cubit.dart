@@ -71,13 +71,12 @@ getVacationTypes({required int cmpId, required BuildContext context}) async {
   }
 
   getSearchedEmployees({required BuildContext context,required String  employee}) async {
-    print('doniaaaaaaaaa');
         emit((state as Data).copyWith(employeesLoading:true));
-        print('5555555${state.employeesLoading}');
+
     ResponseModel response = await NetworkHelper().get(
       queryParams: {
-        "CompanyId":"100",
-        "Search":"Ahmed",
+        "CompanyId":userCompanyId,
+        "Search":"${employee}",
         "Skip":"0",
         "MaxNumber":"10"
       },
@@ -187,7 +186,6 @@ setFromDate({required String from}){
         ));
         
       } else {
-        print('2222');
             emit((state as Data).copyWith(applyLeaveLoading: false,from: 'From',leaveType: 'leave type',to: 'To',selectedEmployeeModel: null,),);
 
         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -204,6 +202,8 @@ setFromDate({required String from}){
                   emit((state as Data).copyWith(applyLeaveLoading: false,from: 'From',leaveType: 'leave type',to: 'To',selectedEmployeeModel: null,),);
 
       print('objectyyyyyyyy');
+      print(response.toString());
+      print(e);
             DioApisExceptions().handleDioError(e,SendRequestFrom.button, context);
                         emit((state as Data).copyWith(applyLeaveLoading: false));
 

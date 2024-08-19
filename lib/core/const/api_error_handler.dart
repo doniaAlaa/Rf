@@ -8,6 +8,8 @@ class DioApisExceptions implements Exception {
   handleDioError(
       Object error, SendRequestFrom requestFrom, BuildContext context) {
     if (error is DioException) {
+      print('////${error.response?.statusCode}');
+
       switch (error.type) {
         case DioExceptionType.connectionTimeout:
           return "Timeout occurred while sending or receiving";
@@ -17,6 +19,7 @@ class DioApisExceptions implements Exception {
         case DioExceptionType.receiveTimeout:
           return "Timeout occurred while sending or receiving";
         case DioExceptionType.badCertificate:
+
           return "Timeout occurred while sending or receiving";
         case DioExceptionType.badResponse:
           // if (error.response?.statusCode == 404) {
