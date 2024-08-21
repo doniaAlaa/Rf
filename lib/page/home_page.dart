@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test2/core/const/app_colors.dart';
 
 import 'package:test2/core/const/app_routers.dart';
 import 'package:test2/home/cubit/home_cubit.dart';
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
 
    @override
   Widget build(BuildContext context) {
-     print('hhhhhhuuuuuu');
+
      HomeCubit().getUserProfileData(context: context);
 
      List list = [
@@ -227,7 +228,10 @@ class HomePage extends StatelessWidget {
               builder: (context, state) {
                 return state.when(
                   data: (loading,profile){
-                    return profile == null ? CircularProgressIndicator():
+                    return profile == null ? Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: CircularProgressIndicator(color: AppColors.primaryColor,strokeWidth: 1,),
+                    ):
                       Column(
                           children: [
 
@@ -250,7 +254,7 @@ class HomePage extends StatelessWidget {
                                            borderRadius: BorderRadius.circular(100),
                                            child:profile.EmployeeImage==''?Image.asset(
                                              'assets/images/profile_img.jpeg',fit: BoxFit.cover,
-                                             height: 200,
+                                             // height: 200,
                                            ): image(profile.EmployeeImage??'')),
                                      ),
                                    ),
