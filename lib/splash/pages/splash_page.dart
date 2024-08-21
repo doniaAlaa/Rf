@@ -15,27 +15,26 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
 
-  isUserLoggedIn()async{
-    String? userData = await SecureStorage().getUserModel();
-
-
-    if (userData != null){
-         print(userData);
-            Navigator.pushNamed(context, AppRoutes.homePage);
-
-    }else{
-         Navigator.pushNamed(context, AppRoutes.appIntroPage);
-
-    }
-  }
+  // isUserLoggedIn()async{
+  //   String? userData = await SecureStorage().getUserModel();
+  //
+  //
+  //   if (userData != null){
+  //        print(userData);
+  //           Navigator.pushNamed(context, AppRoutes.homePage);
+  //
+  //   }else{
+  //        Navigator.pushNamed(context, AppRoutes.appIntroPage);
+  //
+  //   }
+  // }
 
    @override
   void initState() {
     super.initState();
-   Future.delayed(const Duration(seconds: 3), () async{
+   Future.delayed(const Duration(seconds: 4), () async{
     //isUserLoggedIn();
               String? user =  await SecureStorage().getUserModel();
-              print('hhhhhh$user');
               if(user != null){
 
                   Navigator.pushNamed(context, AppRoutes.homePage);
