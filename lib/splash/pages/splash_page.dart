@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
    @override
   void initState() {
     super.initState();
-   Future.delayed(const Duration(seconds: 4), () async{
+   Future.delayed(const Duration(seconds: 2), () async{
     //isUserLoggedIn();
               String? user =  await SecureStorage().getUserModel();
               if(user != null){
