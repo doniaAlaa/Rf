@@ -249,7 +249,7 @@ class HomePage extends StatelessWidget {
                                        child: ClipRRect(
                                            borderRadius: BorderRadius.circular(100),
                                            child:profile.EmployeeImage==''?Image.asset(
-                                             'assets/images/profile_img.jpeg',
+                                             'assets/images/profile_img.jpeg',fit: BoxFit.cover,
                                              height: 200,
                                            ): image(profile.EmployeeImage??'')),
                                      ),
