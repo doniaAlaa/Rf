@@ -53,7 +53,7 @@ class ContactsListCubitCubit extends Cubit<LeavesStateTest> {
         endpoint:
           // '$url/api/Employees/Login?CmpId=$companyId&username=$username&userPassword=$password',
 
-         'https://jazhotelshr.com/Apitest/api/Vacations/GetVacationRequestsList?ApprovalStatus=0&CompanyId=100',
+         '/api/Vacations/GetVacationRequestsList?ApprovalStatus=0&CompanyId=100',
         context: context);
 
    

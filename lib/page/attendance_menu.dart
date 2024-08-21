@@ -4,27 +4,27 @@ import 'package:test2/core/const/app_routers.dart';
 import 'package:test2/core/recognizer.dart';
 import 'package:test2/page/control_panel_presenter.dart';
 
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:image/image.dart' as img;
+// import 'package:assets_audio_player/assets_audio_player.dart';
+// import 'package:flutter_native_image/flutter_native_image.dart';
+// import 'package:image/image.dart' as img;
 import 'package:m7_livelyness_detection/index.dart';
-import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
-import 'package:test2/core/const/app_routers.dart';
-import 'package:test2/core/recognition.dart';
-import 'package:test2/core/recognizer.dart';
-import 'package:test2/models/employee.dart';
-import 'package:test2/page/attendance_menu.dart';
-import 'package:test2/page/control_panel_presenter.dart';
-import 'package:test2/page/home_page.dart';
-import 'package:test2/page/leaves/leaves_menu_options.dart';
-import 'package:test2/utils/local_db.dart';
+// import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
+// import 'package:test2/core/const/app_routers.dart';
+// import 'package:test2/core/recognition.dart';
+// import 'package:test2/core/recognizer.dart';
+// import 'package:test2/models/employee.dart';
+// import 'package:test2/page/attendance_menu.dart';
+// import 'package:test2/page/control_panel_presenter.dart';
+// import 'package:test2/page/home_page.dart';
+// import 'package:test2/page/leaves/leaves_menu_options.dart';
+// import 'package:test2/utils/local_db.dart';
 
 class AttendanceMenu extends StatefulWidget {
 
     dynamic businessUnitResult;
 
     ControlPanelPresenter? presenter;
-       dynamic? loginResult;
+       dynamic loginResult;
 
 
    AttendanceMenu({this.businessUnitResult,this.presenter, this.loginResult});
@@ -37,7 +37,7 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
 
   //  late ControlPanelPresenter _presenter;
 
-  bool _inProgress = true;
+  // bool _inProgress = true;
 
   File? _image;
 

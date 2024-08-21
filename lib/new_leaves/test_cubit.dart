@@ -21,7 +21,7 @@ class TestCubit extends Cubit<NewLeavesState> {
     emit(VacationTypesLoadingState());
     ResponseModel response = await NetworkHelper().get(
         endpoint:
-            'https://jazhotelshr.com/Apitest/api/Vacations/GetVacationTypes?cmpId=100',
+            '/api/Vacations/GetVacationTypes?cmpId=100',
         context: context);
     print('response =====${response.data?.toString()}');
     List body = response.data;
@@ -99,7 +99,7 @@ class TestCubit extends Cubit<NewLeavesState> {
     ResponseModel? response;
     response = await NetworkHelper().post(
         endpoint:
-            'https://jazhotelshr.com/Apitest/api/Vacations/RequestVacation',
+            '/api/Vacations/RequestVacation',
         context: context,
         data: leaveData,
         sendRequestFrom: SendRequestFrom.button);
@@ -126,14 +126,13 @@ class TestCubit extends Cubit<NewLeavesState> {
     ResponseModel? response;
     response = await NetworkHelper().post(
         endpoint:
-            'https://jazhotelshr.com/Apitest/api/Vacations/ApproveVacationRequest?CompanyId=100&RequestNo=2766&EmployeeId=VM0371&Comment=test',
+            '/api/Vacations/ApproveVacationRequest?CompanyId=100&RequestNo=2766&EmployeeId=VM0371&Comment=test',
         context: context,
         // data: leaveData,
         sendRequestFrom: SendRequestFrom.button);
 
     if (response != null) {
       if (response.succeess == true) {
-        print('lll');
       } else {
         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red,

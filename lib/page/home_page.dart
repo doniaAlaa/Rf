@@ -248,7 +248,10 @@ class HomePage extends StatelessWidget {
                                            color: Colors.white, shape: BoxShape.circle),
                                        child: ClipRRect(
                                            borderRadius: BorderRadius.circular(100),
-                                           child: image(profile.EmployeeImage??'')),
+                                           child:profile.EmployeeImage==''?Image.asset(
+                                             'assets/images/profile_img.jpeg',
+                                             height: 200,
+                                           ): image(profile.EmployeeImage??'')),
                                      ),
                                    ),
                                    SizedBox(

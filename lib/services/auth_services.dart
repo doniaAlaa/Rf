@@ -31,7 +31,7 @@ class Auth extends AuthServices {
       required BuildContext context}) async {
     await NetworkHelper().get(
         endpoint:
-            'https://jazhotelshr.com/Apitest/api/Employees/Login?username=M.Kamal&userPassword=1&CmpId=100',
+            '/api/Employees/Login?username=M.Kamal&userPassword=1&CmpId=100',
         context: context);
   }
 }
