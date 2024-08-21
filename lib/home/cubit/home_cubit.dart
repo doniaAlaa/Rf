@@ -7,16 +7,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
 import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/app_response_model/app_response_model.dart';
-import 'package:test2/core/const/api_error_handler.dart';
+// import 'package:test2/core/const/api_error_handler.dart';
 import 'package:test2/core/models/profile_model.dart';
 import 'package:test2/core/models/user_model.dart';
 import 'package:test2/core/networking/network_helper.dart';
-import 'package:test2/leaves_list/models/leaves_list_model.dart';
-import 'package:test2/main.dart';
-import 'package:test2/new_leaves/models/get_employees_model.dart';
-import 'package:test2/new_leaves/models/get_vacation_types_model.dart';
-
-
+// import 'package:test2/leaves_list/models/leaves_list_model.dart';
+// import 'package:test2/main.dart';
+// import 'package:test2/new_leaves/models/get_employees_model.dart';
+// import 'package:test2/new_leaves/models/get_vacation_types_model.dart';
+//
+//
 
 part 'home_cubit.freezed.dart';
 part 'home_state.dart';
@@ -29,21 +29,25 @@ class HomeCubit extends Cubit<HomeState> {
         super( const HomeState.data());
 
   getUserProfileData({ required BuildContext context}) async {
+
+    // print('object');
     UserModel? userModel;
     String?   user =   await SecureStorage().getUserModel();
     if(user != null ){
-      userModel = UserModel.fromJson(jsonDecode(user??''));
+      userModel = UserModel.fromJson(jsonDecode(user));
     }
-    print(userModel?.id);
+    print('1111==${userModel?.id}');
+    String?   compId =   await SecureStorage().getCompId();
+
+
 
     ResponseModel response = await NetworkHelper().get(
         endpoint:
-        'https://jazhotelshr.com/Apitest/api/Employees/GetEmployee?CompanyId=$userCompanyId&EmployeeId=${userModel?.id}',
+        '/api/Employees/GetEmployee?CompanyId=$compId&EmployeeId=${userModel?.id}',
         context: context);
     //print('response =====${response.data?.toString()}');
     // List body = response.data;
     // List body = response.data;
-    print('iiiiiiiiiiii${response.data['EmployeeImage']}');
     // List<VacationType> vacationTypeList =
     // body.map((json) => VacationType.fromJson(json)).toList();
     ProfileModel profileModel = ProfileModel.fromJson(response.data);

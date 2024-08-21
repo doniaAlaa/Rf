@@ -9,10 +9,14 @@ class SecureStorage {
   final String _faceRequired= 'faceRequired';
   final String _loginUrl= 'loginUrl';
   final String _userModel= 'userModel';
+  // final String _baseUrl= 'baseUrl';
+  final String _compId= 'compId';
 
 
 
- Future setUserModel(String userModel) async {
+
+
+  Future setUserModel(String userModel) async {
     await storage.write(key: _userModel, value: userModel);
   }
 
@@ -23,6 +27,8 @@ class SecureStorage {
   Future setUserName(String username) async {
     await storage.write(key: _keyUserName, value: username);
   }
+
+
 
   Future clearUserAccount() async {
     await storage.delete(key: _userModel, );
@@ -54,5 +60,13 @@ class SecureStorage {
 
   Future<String?> getLoginUrl() async {
     return await storage.read(key: _loginUrl);
+  }
+
+  Future setCompanyId(String compId) async {
+    await storage.write(key: _compId, value: compId);
+  }
+
+  Future<String?> getCompId() async {
+    return await storage.read(key: _compId);
   }
 }

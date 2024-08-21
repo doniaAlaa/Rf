@@ -26,18 +26,20 @@ class NetworkHelper {
     CancelToken? cancelToken,
     required BuildContext context,
   }) async {
- 
-   
+    String?   userUrl =   await SecureStorage().getLoginUrl();
+
+    print(userUrl);
+
     try {
             UserModel? userModel;
               String?   user =   await SecureStorage().getUserModel();
               if(user != null ){
-    userModel = UserModel.fromJson(jsonDecode(user??''));
+    userModel = UserModel.fromJson(jsonDecode(user));
                 print(userModel.macAddress);
               }
             
       final response = await _dio.get(
-        endpoint,
+        '$userUrl/$endpoint',
         queryParameters: queryParams,
         options: Options(
           headers: {
@@ -74,9 +76,10 @@ print('response:${response}');
       required BuildContext context,
       required SendRequestFrom sendRequestFrom}) async {
    // try {
-      print('gggg');
+      String?   userUrl =   await SecureStorage().getLoginUrl();
+
       final response = await _dio.post(
-        endpoint,
+        '$userUrl/$endpoint',
         queryParameters: queryParams,
         data: data,
 

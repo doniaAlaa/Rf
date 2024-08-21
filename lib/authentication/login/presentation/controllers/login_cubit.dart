@@ -11,7 +11,7 @@ import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/app_response_model/app_response_model.dart';
 // import 'package:test2/core/models/user_model.dart';
 import 'package:test2/core/networking/network_helper.dart';
-import 'package:test2/home/cubit/home_cubit.dart';
+// import 'package:test2/home/cubit/home_cubit.dart';
 import 'package:test2/main.dart';
 import 'package:test2/page/control_panel_page.dart';
 
@@ -31,7 +31,7 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(LoginLoadingState());
     ResponseModel? response = await NetworkHelper().get(
         endpoint:
-           '$url/api/Employees/Login?CmpId=$companyId&username=$username&userPassword=$password',
+           '/api/Employees/Login?CmpId=$companyId&username=$username&userPassword=$password',
 
        //   'https://jazhotelshr.com/Apitest/api/Employees/Login?UserName=2&UserPassword=1&CmpID=100',
         context: context);
@@ -46,6 +46,9 @@ class LoginCubit extends Cubit<LoginStates> {
 
            var json = jsonEncode(userMap);
            SecureStorage().setUserModel(json.toString());
+           SecureStorage().setLoginUrl(url);
+           SecureStorage().setCompanyId(companyId);
+
 
 
            userCompanyId =  companyId;

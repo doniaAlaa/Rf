@@ -1,19 +1,19 @@
 
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:test2/api/rest_api.dart';
-import 'package:test2/authentication/login/presentation/controllers/login_state.dart';
+// import 'package:test2/authentication/login/presentation/controllers/login_state.dart';
 import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/app_response_model/app_response_model.dart';
 import 'package:test2/core/const/api_error_handler.dart';
-import 'package:test2/core/models/user_model.dart';
+// import 'package:test2/core/models/user_model.dart';
 import 'package:test2/core/networking/network_helper.dart';
 import 'package:test2/leaves_list/leaves_list_state.dart';
 import 'package:test2/leaves_list/models/leaves_list_model.dart';
-import 'package:test2/main.dart';
+// import 'package:test2/main.dart';
 
 
 class LeavesListCubit extends Cubit<LeavesListState> {
@@ -36,11 +36,13 @@ class LeavesListCubit extends Cubit<LeavesListState> {
     emit(LeavesListLoadingState());
      
 
-    print('=====================================${userCompanyId}');
+    String?  compId =   await SecureStorage().getCompId();
+
     ResponseModel? response = await NetworkHelper().get(
         endpoint:
               // '$url/api/Employees/Login?CmpId=$companyId&username=$username&userPassword=$password',
-        'https://jazhotelshr.com/Apitest/api/Vacations/GetVacationRequestsList?ApprovalStatus=$status&CompanyId=$userCompanyId',
+
+        '/api/Vacations/GetVacationRequestsList?ApprovalStatus=$status&CompanyId=$compId',
         context: context);
 
    
@@ -72,12 +74,13 @@ class LeavesListCubit extends Cubit<LeavesListState> {
     required BuildContext context}
      ) async
     {
-    // emit(LeavesListLoadingState());
-    // print('actionOnLeaveReqquest:$requestNo');
-    ResponseModel? response = await NetworkHelper().post(
+
+      String?  compId =   await SecureStorage().getCompId();
+
+      ResponseModel? response = await NetworkHelper().post(
        sendRequestFrom: SendRequestFrom.button,
        queryParams: {
-        "CompanyId":"${userCompanyId}",
+        "CompanyId":"${compId}",
         "RequestNo":employeeId,
         "EmployeeId":requestNo,
         "Comment":comment,
@@ -88,12 +91,11 @@ class LeavesListCubit extends Cubit<LeavesListState> {
         endpoint:
           // '$url/api/Employees/Login?CmpId=$companyId&username=$username&userPassword=$password',
         
-         'https://jazhotelshr.com/Apitest/api/Vacations/ApproveVacationRequest?CompanyId=$userCompanyId&RequestNo=$requestNo&EmployeeId=$employeeId&Comment=test',
+         '/api/Vacations/ApproveVacationRequest?CompanyId=$compId&RequestNo=$requestNo&EmployeeId=$employeeId&Comment=test',
         context: context);
 
    
        if(response != null){
-            print('actionOnLeaveReqquesttttt');
 
          getLeavesList(context: context);
 
@@ -118,12 +120,12 @@ class LeavesListCubit extends Cubit<LeavesListState> {
     required BuildContext context}
      ) async
     {
-    // emit(LeavesListLoadingState());
-    // print('actionOnLeaveReqquest:$requestNo');
-    ResponseModel? response = await NetworkHelper().post(
+      String?  compId =   await SecureStorage().getCompId();
+
+      ResponseModel? response = await NetworkHelper().post(
        sendRequestFrom: SendRequestFrom.button,
        queryParams: {
-        "CompanyId":"${userCompanyId}",
+        "CompanyId":"${compId}",
         "RequestNo":employeeId,
         "EmployeeId":requestNo,
         "Comment":comment,
@@ -134,12 +136,11 @@ class LeavesListCubit extends Cubit<LeavesListState> {
         endpoint:
           // '$url/api/Employees/Login?CmpId=$companyId&username=$username&userPassword=$password',
         
-         'https://jazhotelshr.com/Apitest/api/Vacations/RejectVacationRequest?CompanyId=$userCompanyId&RequestNo=$requestNo&EmployeeId=$employeeId&Comment=test',
+         '/api/Vacations/RejectVacationRequest?CompanyId=$compId&RequestNo=$requestNo&EmployeeId=$employeeId&Comment=test',
         context: context);
 
    
        if(response != null){
-            print('actionOnLeaveReqquesttttt');
 
          getLeavesList(context: context);
 

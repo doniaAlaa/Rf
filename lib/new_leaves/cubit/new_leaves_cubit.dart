@@ -5,11 +5,12 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/app_response_model/app_response_model.dart';
 import 'package:test2/core/const/api_error_handler.dart';
 import 'package:test2/core/networking/network_helper.dart';
-import 'package:test2/leaves_list/models/leaves_list_model.dart';
-import 'package:test2/main.dart';
+// import 'package:test2/leaves_list/models/leaves_list_model.dart';
+// import 'package:test2/main.dart';
 import 'package:test2/new_leaves/models/get_employees_model.dart';
 import 'package:test2/new_leaves/models/get_vacation_types_model.dart';
 
@@ -58,7 +59,7 @@ getVacationTypes({required int cmpId, required BuildContext context}) async {
     emit((state as Data).copyWith(leavesTypeLoading:true));
     ResponseModel response = await NetworkHelper().get(
         endpoint:
-            'https://jazhotelshr.com/Apitest/api/Vacations/GetVacationTypes?cmpId=100',
+            '/api/Vacations/GetVacationTypes?cmpId=100',
         context: context);
     print('response =====${response.data?.toString()}');
     List body = response.data;
@@ -72,17 +73,18 @@ getVacationTypes({required int cmpId, required BuildContext context}) async {
 
   getSearchedEmployees({required BuildContext context,required String  employee}) async {
         emit((state as Data).copyWith(employeesLoading:true));
+        String?   compId =   await SecureStorage().getCompId();
 
     ResponseModel response = await NetworkHelper().get(
       queryParams: {
-        "CompanyId":userCompanyId,
+        "CompanyId":compId,
         "Search":"${employee}",
         "Skip":"0",
         "MaxNumber":"10"
       },
         endpoint:
           //  '$userBaseUrl/api/Employees/GetEmployees?CompanyId=100&Search=Ahmed&Skip=0&MaxNumber=10',
-             'https://jazhotelshr.com/Apitest/api/Employees/GetEmployees?CompanyId=$userCompanyId&Search=$employee&Skip=0&MaxNumber=10',
+             '/api/Employees/GetEmployees?CompanyId=$compId&Search=$employee&Skip=0&MaxNumber=10',
 
         context: context);
     List body = response.data;
@@ -162,15 +164,15 @@ setFromDate({required String from}){
     ResponseModel? response;
      emit((state as Data).copyWith(applyLeaveLoading: true));
     try{
-       response = await NetworkHelper().post(
+
+      response = await NetworkHelper().post(
         endpoint:
-            '$userBaseUrl/api/Vacations/RequestVacation',
+            '/api/Vacations/RequestVacation',
         context: context,
         data: leaveData,
         sendRequestFrom: SendRequestFrom.button);
 
         // print('mmmmmmmmm');
-        print(response);
 
     if (response != null) {
      
@@ -186,7 +188,8 @@ setFromDate({required String from}){
         ));
         
       } else {
-            emit((state as Data).copyWith(applyLeaveLoading: false,from: 'From',leaveType: 'leave type',to: 'To',selectedEmployeeModel: null,),);
+            // emit((state as Data).copyWith(applyLeaveLoading: false,from: 'From',leaveType: 'leave type',to: 'To',selectedEmployeeModel: null,),);
+            emit((state as Data).copyWith(applyLeaveLoading: false,),);
 
         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red,
@@ -199,10 +202,10 @@ setFromDate({required String from}){
       }
     }
     }catch(e){
-                  emit((state as Data).copyWith(applyLeaveLoading: false,from: 'From',leaveType: 'leave type',to: 'To',selectedEmployeeModel: null,),);
+      //emit((state as Data).copyWith(applyLeaveLoading: false,from: 'From',leaveType: 'leave type',to: 'To',selectedEmployeeModel: null,),);
+      emit((state as Data).copyWith(applyLeaveLoading: false),);
 
-      print('objectyyyyyyyy');
-      print(response.toString());
+
       print(e);
             DioApisExceptions().handleDioError(e,SendRequestFrom.button, context);
                         emit((state as Data).copyWith(applyLeaveLoading: false));

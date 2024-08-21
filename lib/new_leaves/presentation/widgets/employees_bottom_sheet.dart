@@ -3,7 +3,6 @@ import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
 import 'package:test2/core/const/app_colors.dart';
 import 'package:test2/core/reusable_widgets/app_button.dart';
 import 'package:test2/new_leaves/cubit/new_leaves_cubit.dart';
-import 'package:test2/new_leaves/models/get_employees_model.dart';
 
 class EmployeesBottomSheet{
   final _formKey = GlobalKey<FormState>();
@@ -23,7 +22,7 @@ class EmployeesBottomSheet{
           child: BlocBuilder<NewLeavesCubit, NewLeavesState>(
           builder: (context,state){
             return SizedBox(
-                height: MediaQuery.of(context).size.height*0.4,
+                height: MediaQuery.of(context).size.height*0.6,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -89,13 +88,13 @@ class EmployeesBottomSheet{
                                SizedBox(width: 10,),
                                PrimaryAppButton(buttonTile: 'search',buttonWidth: 60,buttonHeight: 40, onPress: (){
                             // print(employeeController.text);
+                                 FocusManager.instance.primaryFocus?.unfocus();
+
                                  if (_formKey.currentState!.validate()) {
 
                                    onPress(employeeController.text);
 
-                                   ScaffoldMessenger.of(context).showSnackBar(
-                                     const SnackBar(content: Text('Processing Data')),
-                                   );
+
                                  }
 
 
