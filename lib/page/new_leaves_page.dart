@@ -1722,30 +1722,32 @@ class NewLeavesPage extends StatelessWidget {
                           String?  compId =   await SecureStorage().getCompId();
 
 
-                          // if(
-                         //  from == 'From' || to == 'To' || leaveType == 'leave type' || leaveCauseController.text.trim().isEmpty || selectedEmployeeModel == null
-                         // ){
-                         //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                         //    backgroundColor: AppColors.primaryColor,
-                         //      content: Text('complete data first',),
-                         //    ));
-                         // }
-                         //  else {
+                          if(
+                          from == 'From' || to == 'To' || leaveType == 'leave type' || leaveCauseController.text.trim().isEmpty || selectedEmployeeModel == null
+                         ){
+                           return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: AppColors.primaryColor,
+                              content: Text('complete data first',),
+                            ));
+                         }
+                          else {
                             
 
                             // <-- dd/MM 24H format
-                          String formattedToDate = DateFormat("dd-MM-yyyy").format(_toSelectedDay??DateTime.now());
-                          String formattedFromDate = DateFormat("dd-MM-yyyy").format(_selectedDay??DateTime.now());
+                          // String formattedToDate = DateFormat("dd-MM-yyyy").format(_toSelectedDay??DateTime.now());
+                          // String formattedFromDate = DateFormat("dd-MM-yyyy").format(_selectedDay??DateTime.now());
+                          //
+                          String formattedToDate = DateFormat("yyyy-MM-dd").format(_toSelectedDay??DateTime.now());
+                          String formattedFromDate = DateFormat("yyyy-MM-dd").format(_selectedDay??DateTime.now());
 
                             var outputFormat = DateFormat("dd-MM-yyyy");
                            
-                            print(formattedToDate);
-                            
+
                             var formattedRequestDate =
                                 outputFormat.format(DateTime.now());
                             Map<String, dynamic> leaveData = {
                               "companyID": compId,
-                              "EmployeeID":selectedEmployeeModel?.emp_id??'4',
+                              "EmployeeID":selectedEmployeeModel.emp_id??'4',
                               "vacationRequestDate": formattedRequestDate,
                               "vacationDetails": [
                                 {
@@ -1760,7 +1762,7 @@ class NewLeavesPage extends StatelessWidget {
                             
                             NewLeavesCubit.get(context).applyNewLeave(
                                 context: context, leaveData: leaveData);
-                       //  }
+                         }
                      
                      
                         }),
