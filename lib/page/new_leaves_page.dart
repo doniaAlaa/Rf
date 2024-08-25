@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/const/app_colors.dart';
 import 'package:test2/core/reusable_widgets/app_button.dart';
 
@@ -914,8 +915,8 @@ import 'package:test2/core/reusable_widgets/app_button.dart';
 //   }
 // }
 
-import 'package:flutter/material.dart';
-import 'package:test2/main.dart';
+// import 'package:flutter/material.dart';
+// import 'package:test2/main.dart';
 import 'package:test2/new_leaves/presentation/widgets/employees_bottom_sheet.dart';
 
 import '../new_leaves/cubit/new_leaves_cubit.dart';
@@ -1201,7 +1202,7 @@ class NewLeavesPage extends StatelessWidget {
                                                   shrinkWrap: true,
                                                   physics: NeverScrollableScrollPhysics(),
                                                   itemCount: vacationTypes
-                                                      ?.length,
+                                                      .length,
                                                   itemBuilder:
                                                       (context, index) {
                                                     return Padding(
@@ -1211,13 +1212,13 @@ class NewLeavesPage extends StatelessWidget {
                                                       child: InkWell(
                                                         onTap: () {
                                                           NewLeavesCubit.get(context).chooseLeavesType(
-                                                              selectedId: vacationTypes?[
+                                                              selectedId: vacationTypes[
                                                                           index]
                                                                       .vac_id ??
                                                                   '',
                                                               selectedIndex:
                                                                   index,
-                                                              leaveType: vacationTypes?[
+                                                              leaveType: vacationTypes[
                                                                           index]
                                                                       .vac_desc ??
                                                                   '');
@@ -1266,7 +1267,7 @@ class NewLeavesPage extends StatelessWidget {
                                                             const SizedBox(
                                                               width: 8,
                                                             ),
-                                                            Text(vacationTypes?[
+                                                            Text(vacationTypes[
                                                                     index]
                                                                     .vac_desc ??
                                                                 ''),
@@ -1717,17 +1718,19 @@ class NewLeavesPage extends StatelessWidget {
                       
                         'Apply For ${applyingDuration} Days Leaves',
                     //  buttonTile:'hh',
-                        onPress: () {
-                     
-                         if(
-                          from == 'From' || to == 'To' || leaveType == 'leave type' || leaveCauseController.text.trim().isEmpty || selectedEmployeeModel == null
-                         ){
-                           return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: AppColors.primaryColor,
-                              content: Text('complete data first',),
-                            ));
-                         }
-                          else {
+                        onPress: () async{
+                          String?  compId =   await SecureStorage().getCompId();
+
+
+                          // if(
+                         //  from == 'From' || to == 'To' || leaveType == 'leave type' || leaveCauseController.text.trim().isEmpty || selectedEmployeeModel == null
+                         // ){
+                         //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                         //    backgroundColor: AppColors.primaryColor,
+                         //      content: Text('complete data first',),
+                         //    ));
+                         // }
+                         //  else {
                             
 
                             // <-- dd/MM 24H format
@@ -1741,8 +1744,8 @@ class NewLeavesPage extends StatelessWidget {
                             var formattedRequestDate =
                                 outputFormat.format(DateTime.now());
                             Map<String, dynamic> leaveData = {
-                              "companyID": userCompanyId,
-                              "EmployeeID":selectedEmployeeModel?.emp_id??'',
+                              "companyID": compId,
+                              "EmployeeID":selectedEmployeeModel?.emp_id??'4',
                               "vacationRequestDate": formattedRequestDate,
                               "vacationDetails": [
                                 {
@@ -1757,7 +1760,7 @@ class NewLeavesPage extends StatelessWidget {
                             
                             NewLeavesCubit.get(context).applyNewLeave(
                                 context: context, leaveData: leaveData);
-                         }
+                       //  }
                      
                      
                         }),
