@@ -1525,20 +1525,36 @@ class NewLeavesPage extends StatelessWidget {
                                             //headerVisible: false,
                                             onDaySelected:
                                             (DateTime selectedDay,DateTime focusedDay){
-                                              if(!isSameDay(_selectedDay, selectedDay)){
-                                                setState(() {
-                                                  _selectedDay = selectedDay;
-                                                  _focusedDay = focusedDay;
-                                                    
-                                                      
-                                                  String formattedDate =
-                                                      DateFormat.yMMMEd().format(selectedDay);
-                                                    NewLeavesCubit.get(context).setFromDate(from: formattedDate);
 
-                                                                             
-                                                });
-                                              }
-                                         
+                                                       print(_toSelectedDay);
+                                                       print(selectedDay);
+                                                       if(_toSelectedDay != null && _toSelectedDay!.isBefore(selectedDay)){
+                                                         ScaffoldMessenger.of(context)
+                                                             .showSnackBar(const SnackBar(
+                                                           backgroundColor: Colors.red,
+                                                           content: Text(
+                                                             'from date can not be after to date',
+                                                             style: TextStyle(fontSize: 15),
+                                                           ),
+                                                         ));
+                                                       }else{
+
+                                                         if(!isSameDay(_selectedDay, selectedDay)){
+                                                           setState(() {
+                                                             _selectedDay = selectedDay;
+                                                             _focusedDay = focusedDay;
+
+
+                                                             String formattedDate =
+                                                             DateFormat.yMMMEd().format(selectedDay);
+                                                             NewLeavesCubit.get(context).setFromDate(from: formattedDate);
+
+
+                                                           });
+                                                         }
+
+                                                       }
+
                                             },
                                             
                                            selectedDayPredicate: (day) =>isSameDay(_selectedDay, day),
