@@ -1740,7 +1740,7 @@ class NewLeavesPage extends StatelessWidget {
                           String formattedToDate = DateFormat("yyyy-MM-dd").format(_toSelectedDay??DateTime.now());
                           String formattedFromDate = DateFormat("yyyy-MM-dd").format(_selectedDay??DateTime.now());
 
-                            var outputFormat = DateFormat("dd-MM-yyyy");
+                            var outputFormat = DateFormat("yyyy-MM-dd");
                            
 
                             var formattedRequestDate =
