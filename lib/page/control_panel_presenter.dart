@@ -8,6 +8,7 @@ import 'package:location/location.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
 import 'package:test2/api/rest_api.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/models/employee.dart';
 import 'package:test2/utils/local_db.dart';
 
@@ -124,12 +125,18 @@ class ControlPanelPresenter {
   }
 
   Future<void> verifyLocation(businessUnitResult,[BuildContext? context]) async {
-    print(context?.mounted);
+
+
+   print('verifyLocation${context?.mounted}');
     LocationData locationData = await Location().getLocation();
 
-    // print(businessUnitResult);
-    Map data = businessUnitResult["data"];
-        // print(data);
+    String? user = await SecureStorage().getUserModel();
+    Map<String, dynamic> valueMap =jsonDecode(user??'');
+   // UserModel userModel = UserModel.fromJson(valueMap);
+    Map data = valueMap;
+
+   // Map data = businessUnitResult["data"];
+        print('dataaaaaaaa3${data.toString()}');
         // print(data['latitude']);
 
 

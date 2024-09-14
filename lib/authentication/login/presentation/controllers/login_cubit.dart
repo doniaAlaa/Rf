@@ -6,12 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:test2/api/rest_api.dart';
 import 'package:test2/authentication/login/presentation/controllers/login_state.dart';
-// import 'package:test2/core/app_local_db/app_cached_db.dart';
 import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/app_response_model/app_response_model.dart';
-// import 'package:test2/core/models/user_model.dart';
+
 import 'package:test2/core/networking/network_helper.dart';
-// import 'package:test2/home/cubit/home_cubit.dart';
 import 'package:test2/main.dart';
 import 'package:test2/page/control_panel_page.dart';
 
@@ -64,6 +62,10 @@ class LoginCubit extends Cubit<LoginStates> {
 
                .then((businessUnitResult) async {
 
+           //  String? user = await SecureStorage().getUserModel();
+          //    Map<String, dynamic> valueMap =jsonDecode(user??'');
+          //    UserModel userModel = UserModel.fromJson(valueMap);
+          //    print('anaaaa${userModel.id}');
 
              Navigator.of(context).push(MaterialPageRoute(
                  builder: (context) => ControlPanelPage(

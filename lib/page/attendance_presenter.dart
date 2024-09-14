@@ -1,3 +1,5 @@
+import 'package:test2/core/app_local_db/app_local_db.dart';
+
 import '../api/rest_api.dart';
 
 abstract class AttendanceContract {
@@ -13,9 +15,9 @@ class AttendancePresenter {
   AttendancePresenter(this._view);
 
   Future<void> getEmployeeAttendance(String endpoint, String companyId, int employeeId, String date) async {
-    print('xxxxxxxxxx');
-    await api.getEmployeeAttendance(endpoint, companyId, employeeId, date).then((employeeAttendance) async {
-          print('vvvvvvv');
+    String?   compId =   await SecureStorage().getCompId();
+
+    await api.getEmployeeAttendance('https://jazhotelshr.com/Apitest', compId??'', employeeId, date).then((employeeAttendance) async {
 
       if (employeeAttendance is Map) {
         _view.onGetEmployeeCheckInsSuccess(employeeAttendance);

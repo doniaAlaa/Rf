@@ -8,6 +8,8 @@ class RestAPI {
   final client = Dio();
 
   Future<dynamic> getData(String url) async {
+    print('hhhhhhhhhhllll');
+    print(url);
     try {
       final response = await client.get(url);
 
@@ -87,7 +89,7 @@ class RestAPI {
   }
 
   Future<dynamic> getEmployeeAttendance(String endpoint, String companyId, int employeeId, String date) async {
-    return getData('$endpoint/api/Employees/GetEmployeeAttendance?CmpId=$companyId&EmpID=$employeeId&AttDate=$date');
+    return getData('$endpoint/api/Employees/GetEmployeeAttendance?CmpId=100&EmpID=2&AttDate=$date');
   }
 
   Future<dynamic> getLeavesList(String endpoint, String companyId, String unitId) async {

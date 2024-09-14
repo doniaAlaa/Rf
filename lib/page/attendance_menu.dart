@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/const/app_routers.dart';
-import 'package:test2/core/recognizer.dart';
+// import 'package:test2/core/recognizer.dart';
+import 'package:test2/face_detection/edit_face_detection.dart';
 import 'package:test2/page/control_panel_presenter.dart';
 
 // import 'package:assets_audio_player/assets_audio_player.dart';
@@ -43,11 +47,11 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
 
   var image;
   List<Face> faces = [];
-  late FaceDetector _faceDetector;
-  late Recognizer _recognizer;
-
-  late int _employeeId;
-  late String _employeeName;
+  // late FaceDetector _faceDetector;
+  // late Recognizer _recognizer;
+  //
+  // late int _employeeId;
+  // late String _employeeName;
   late bool _faceRequired;
     String? _deviceId;
 
@@ -56,10 +60,10 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
   void initState() {
     super.initState();
      print('kkkkkkkkkkkkk${widget.loginResult}');
-    _employeeId = int.parse(widget.loginResult['id']);
-    _employeeName = widget.loginResult['nameEn'];
-    _faceRequired = widget.loginResult['faceRequired'];
-    _deviceId = widget.loginResult['macAddress'];
+   // _employeeId = int.parse(widget.loginResult['id']);
+   //  _employeeName = widget.loginResult['nameEn'];
+   //  _faceRequired = widget.loginResult['faceRequired'];
+   //  _deviceId = widget.loginResult['macAddress'];
 
 
    
@@ -181,22 +185,33 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
                           thickness: 1,
                         ),
                       ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Face Register',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 20,
-                            color: Color.fromARGB(255, 169, 169, 169),
-                          )
-                        ],
+                      InkWell(
+                        onTap: (){
+                          // widget.presenter?.postEmployeeArray('https://jazhotelshr.com/Apitest','100' );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => EditFaceDetection(
+                                  endpoint: 'https://jazhotelshr.com/Apitest',
+                                  companyId: '100',
+                                  businessUnitResult: widget.businessUnitResult,
+                                  loginResult: widget.loginResult)));
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Face Register',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 20,
+                              color: Color.fromARGB(255, 169, 169, 169),
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -268,11 +283,69 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
 
   }
 
-   verifyLocationAndCheckIn([BuildContext? context]) {
-    print('vvvvvvvv');
-   widget.presenter?.verifyLocation(widget.businessUnitResult,context);
+   verifyLocationAndCheckIn([BuildContext? context]) async{
+    // print('jjjjj${widget.businessUnitResult}');
+    //
+    //    //print('anaaaa${userModel.id}');
+   ///  ControlPanelPresenter presenter = ControlPanelPresenter();
+   //  String? user = await SecureStorage().getUserModel();
+  //   Map<String, dynamic> valueMap =jsonDecode(user??'');
+
+ // verifyLocation(valueMap,context);
+ //     presenter?.verifyLocation(widget.businessUnitResult,context);
+     widget.presenter?.verifyLocation(widget.businessUnitResult,context);
+
+     // presenter!.verifyLocation(valueMap,context);
+     print(widget.presenter.runtimeType);
+
+   }
+
+  Future<void> verifyLocation(businessUnitResult,[BuildContext? context]) async {
+
+
+    print('verifyLocation${context?.mounted}');
+    LocationData locationData = await Location().getLocation();
+
+    String? user = await SecureStorage().getUserModel();
+    Map<String, dynamic> valueMap =jsonDecode(user??'');
+    // UserModel userModel = UserModel.fromJson(valueMap);
+    Map data = valueMap;
+
+    // Map data = businessUnitResult["data"];
+    // print(data);
+    // print(data['latitude']);
+
+
+    double distance = _calculateDistance(
+        lat1: locationData.latitude!,
+        lon1: locationData.longitude!,
+        lat2: double.parse(data['latitude']),
+        lon2: double.parse(data['longitude']));
+
+    String? wifiBSSID = await NetworkInfo().getWifiBSSID();
+
+    if ((wifiBSSID != null &&
+        businessUnitResult['MacAdrresslist'] != null &&
+        ((businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toUpperCase()) ||
+            (businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toLowerCase()))) ||
+        // (businessUnitResult['MacAdrresslist'] as List).contains('74:da:88:7f:68:ba')) ||
+        distance < 0.1) {
+
+      //_view.onVerifyLocationSuccess(context);
+      print('onVerifyLocationSuccess');
+    } else {
+   //   _view.onVerifyLocationFailed('Invalid Location/Wi-Fi Network\nMAC Address = $wifiBSSID');
+      print('onVerifyLocationFailed');
+
+    }
   }
 
+  double _calculateDistance({required double lat1, required double lon1, required double lat2, required double lon2}) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 - c((lat2 - lat1) * p) / 2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
   Future<void> checkInFunc() async {
     print('3333');
     if (_faceRequired) {

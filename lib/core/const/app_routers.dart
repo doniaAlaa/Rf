@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test2/new_leaves/leaves_page_test.dart';
+import 'package:test2/face_detection/edit_face_detection.dart';
 import 'package:test2/page/app_intro_page.dart';
 
 import 'package:test2/page/attendance_menu.dart';
@@ -28,6 +28,9 @@ class AppRoutes {
   static const String appIntroPage = 'appIntroPage';
   static const String leavesMenuOptions = 'leavesMenuOptions';
   static const String leavesListPage = 'leavesListPage';
+  static const String editFaceDetectionPage = 'editFaceDetectionPage';
+
+
 
 
   
@@ -50,6 +53,9 @@ class AppRoutes {
       faceRegisterPage: (context) => const FaceRegisterPage(),
       checkCheckoutPage: (context) => const CheckCheckoutPage(),
       leavesListPage: (context) => LeavesListPage(),
+      editFaceDetectionPage: (context) => const EditFaceDetection(loginResult: null,endpoint: '',companyId: '', businessUnitResult: null,),
+
+
 
 
     };
@@ -77,8 +83,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const FaceRegisterPage());
       case AppRoutes.checkCheckoutPage:
         return MaterialPageRoute(builder: (_) =>  CheckCheckoutPage());
-      // case AppRoutes.faceDetectionPage:
-      //   return MaterialPageRoute(builder: (_) => FaceDetectionPage());  
+      case AppRoutes.editFaceDetectionPage:
+        return MaterialPageRoute(builder: (_) => EditFaceDetection(loginResult: null,endpoint: '',companyId: '', businessUnitResult: null,));
 
       default:
         return MaterialPageRoute(
