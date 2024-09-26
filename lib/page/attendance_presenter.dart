@@ -15,9 +15,10 @@ class AttendancePresenter {
   AttendancePresenter(this._view);
 
   Future<void> getEmployeeAttendance(String endpoint, String companyId, int employeeId, String date) async {
+    String?   url =   await SecureStorage().getLoginUrl();
     String?   compId =   await SecureStorage().getCompId();
 
-    await api.getEmployeeAttendance('https://jazhotelshr.com/Apitest', compId??'', employeeId, date).then((employeeAttendance) async {
+    await api.getEmployeeAttendance(url??'', compId??'', employeeId, date).then((employeeAttendance) async {
 
       if (employeeAttendance is Map) {
         _view.onGetEmployeeCheckInsSuccess(employeeAttendance);

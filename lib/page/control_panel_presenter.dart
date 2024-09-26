@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 // import 'dart:js';
 import 'dart:math';
@@ -111,9 +110,13 @@ class ControlPanelPresenter {
   Future<void> postEmployeeDeviceId(String endpoint, String companyId, int employeeId) async {
     String? deviceId = await _getDeviceId();
     print(deviceId);
+    String?   url =   await SecureStorage().getLoginUrl();
+    String?   compId =   await SecureStorage().getCompId();
 
     if (deviceId != null) {
-      await api.postEmployeeDeviceId(endpoint, companyId, employeeId, deviceId).then((value) async {
+      // await api.postEmployeeDeviceId(endpoint, companyId, employeeId, deviceId).then((value) async {
+      await api.postEmployeeDeviceId(url??'', compId??'', employeeId, deviceId).then((value) async {
+
         print(value);
         if (value == 1) {
           _view.onPostEmployeeDeviceIdSuccess(deviceId);
@@ -124,54 +127,91 @@ class ControlPanelPresenter {
     }
   }
 
+  // Future<void> verifyLocation(businessUnitResult,[BuildContext? context]) async {
+  //
+  //
+  //  print('verifyLocation////${context?.mounted}');
+  //   LocationData locationData = await Location().getLocation();
+  //   String? employeeData = '{"BusinessUnitID": "10", "BusinessUnitNameEn": "administration", "BusinessUnitNameAR": "الادارة" , "MacAdrresslist": "[58:7f:66:aa1e:d8]", "longitude": 31.376110, "latitude": 30.040219}';
+  // await SecureStorage().getEmployeeData();
+  // print('user${employeeData}');
+  //  var valueMap = jsonDecode(employeeData??'');
+  //  UserModel userModel = UserModel.fromJson(valueMap);
+  //  Map data = valueMap;
+  //  //
+  //  // // Map data = businessUnitResult["data"];
+  //  //      print('dataaaaaaaa3${data['data']['latitude'].toString()}');
+  //  // print('dataaaaaaaa3${data['latitude'].toString()}');
+  //
+  //  // print(data['latitude']);
+  //
+  //
+  //   double distance = _calculateDistance(
+  //       lat1: locationData.latitude!,
+  //       lon1: locationData.longitude!,
+  //       lat2: double.parse('30.040219'),
+  //       lon2: double.parse('31.376110'));
+  //
+  //   String? wifiBSSID = await NetworkInfo().getWifiBSSID();
+  //
+  //   if ((wifiBSSID != null &&
+  //           businessUnitResult['MacAdrresslist'] != null &&
+  //           ((businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toUpperCase()) ||
+  //               (businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toLowerCase()))) ||
+  //      // (businessUnitResult['MacAdrresslist'] as List).contains('74:da:88:7f:68:ba')) ||
+  //       distance < 0.1) {
+  //
+  //     _view.onVerifyLocationSuccess(context);
+  //     print('onVerifyLocationSuccess');
+  //   } else {
+  //     _view.onVerifyLocationFailed('Invalid Location/Wi-Fi Network\nMAC Address = $wifiBSSID');
+  //           print('onVerifyLocationFailed');
+  //
+  //   }
+  // }
+  //
+
   Future<void> verifyLocation(businessUnitResult,[BuildContext? context]) async {
-
-
-   print('verifyLocation${context?.mounted}');
     LocationData locationData = await Location().getLocation();
-
-    String? user = await SecureStorage().getUserModel();
-    Map<String, dynamic> valueMap =jsonDecode(user??'');
-   // UserModel userModel = UserModel.fromJson(valueMap);
-    Map data = valueMap;
-
-   // Map data = businessUnitResult["data"];
-        print('dataaaaaaaa3${data.toString()}');
-        // print(data['latitude']);
-
 
     double distance = _calculateDistance(
         lat1: locationData.latitude!,
         lon1: locationData.longitude!,
-        lat2: double.parse(data['latitude']),
-        lon2: double.parse(data['longitude']));
+        lat2: double.parse(businessUnitResult['latitude']),
+        lon2: double.parse(businessUnitResult['longitude']));
 
     String? wifiBSSID = await NetworkInfo().getWifiBSSID();
 
     if ((wifiBSSID != null &&
-            businessUnitResult['MacAdrresslist'] != null &&
-            ((businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toUpperCase()) ||
-                (businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toLowerCase()))) ||
-       // (businessUnitResult['MacAdrresslist'] as List).contains('74:da:88:7f:68:ba')) ||
+        businessUnitResult['MacAdrresslist'] != null &&
+        ((businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toUpperCase()) ||
+            (businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toLowerCase()))) ||
+        // (businessUnitResult['MacAdrresslist'] as List).contains('74:da:88:7f:68:ba')) ||
         distance < 0.1) {
-
-      _view.onVerifyLocationSuccess(context);
-      print('onVerifyLocationSuccess');
+      _view.onVerifyLocationSuccess();
     } else {
       _view.onVerifyLocationFailed('Invalid Location/Wi-Fi Network\nMAC Address = $wifiBSSID');
-            print('onVerifyLocationFailed');
-
     }
   }
 
+
   Future<void> verifyDeviceId(String? registeredDeviceId,[BuildContext? context]) async {
+    print('jjjjjjjjjjjjjjjjj$context');
+
     String? currentDeviceId = await _getDeviceId();
+    print('tt$currentDeviceId');
 
     if (registeredDeviceId != null && currentDeviceId == registeredDeviceId) {
       _view.onVerifyDeviceIdSuccess(context);
-      print('yyyyyyyyyyy');
+      print('yyyyyyyyyyy$_view');
     } else {
+        print('Device ID doesn\'t match ');
+        var snackBar = SnackBar(
+          content: Text('Device ID doesn\'t match \nDevice ID = $currentDeviceId'),
+        );
+       if(context != null) ScaffoldMessenger.of(context).showSnackBar(snackBar);
       _view.onVerifyDeviceIdFailed('Device ID doesn\'t match \nDevice ID = $currentDeviceId');
+
     }
   }
 

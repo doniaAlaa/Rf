@@ -15,7 +15,7 @@ import 'package:test2/page/control_panel_presenter.dart';
 // import 'dart:typed_data';
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
    dynamic businessUnitResult;
 
   ControlPanelPresenter? presenter;
@@ -23,12 +23,23 @@ class HomePage extends StatelessWidget {
 
    HomePage({this.businessUnitResult,this.presenter,this.loginResult});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage>
+   // implements ControlPanelContract
+{
+   //late ControlPanelPresenter _presenter;
 
-
+   // _HomePageState() {
+   //   _presenter = ControlPanelPresenter(this);
+   // }
 
    @override
   Widget build(BuildContext context) {
+     // _presenter = ControlPanelPresenter();
+     //_HomePageState();
 
      HomeCubit().getUserProfileData(context: context);
 
@@ -62,8 +73,8 @@ class HomePage extends StatelessWidget {
 
        child: Scaffold(
          backgroundColor: Color(0xfff1c1cd),
-           
-           
+
+
           // Theme.of(context).colorScheme.inversePrimary,
           appBar:  AppBar(
             leading: InkWell(
@@ -94,7 +105,7 @@ class HomePage extends StatelessWidget {
                 //     );
                 //   },
                 // );
-        
+
               },
               child: Icon(Icons.menu,color: Colors.white,)),
               backgroundColor: Colors.red[100],
@@ -108,7 +119,7 @@ class HomePage extends StatelessWidget {
                elevation: 4,
               title: const Text('Home',style: TextStyle(color: Colors.white),),
             ),
-         
+
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -237,7 +248,7 @@ class HomePage extends StatelessWidget {
                       ):
                         Column(
                             children: [
-       
+
                               const SizedBox(
                                 height: 20,
                               ),
@@ -304,35 +315,36 @@ class HomePage extends StatelessWidget {
                                   itemBuilder: ((context, index) {
                                     return InkWell(
                                       onTap: () {
-       
+
                                         if(index == 0){
                                         // Navigator.pushNamed(context, AppRoutes.attendanceMenu);
                                         // print('lllllll:::${context.mounted}');
-       
+
                                         //     print(businessUnitResult);
-       
-       
+
+
                                         // print(loginResult);
-       
+
                                         // if(context.mounted){
                                         //     presenter?.verifyLocation(businessUnitResult);
-       
+
                                         // }
-       
-       
+
+
                                          Navigator.push(
                                             context,
                                             MaterialPageRoute(builder: (context) =>  AttendanceMenu(
-                                                 presenter: presenter,
-                                                 businessUnitResult: businessUnitResult,
-                                                 loginResult: loginResult,
+                                               //  presenter: presenter,
+                                            //  presenter: _presenter,
+                                              businessUnitResult: widget.businessUnitResult,
+                                                 loginResult: widget.loginResult,
                                             )),
                                           );
-       
+
                                         }else{
                                           print('ppppp');
                                             Navigator.pushNamed(context, AppRoutes.leavesMenuOptions);
-       
+
                                         }
                                       },
                                       child: DecoratedBox(
@@ -364,14 +376,69 @@ class HomePage extends StatelessWidget {
                           );
                     }
                   );
-       
+
                 },
               ),
             ),
           ),
         ),
-          
+
            ),
      );
   }
+
+  // @override
+  // void onGetEmployeeArraySuccess() {
+  //   // TODO: implement onGetEmployeeArraySuccess
+  // }
+  //
+  // @override
+  // void onPostEmployeeArrayFailed() {
+  //   // TODO: implement onPostEmployeeArrayFailed
+  // }
+  //
+  // @override
+  // void onPostEmployeeArraySuccess() {
+  //   // TODO: implement onPostEmployeeArraySuccess
+  // }
+  //
+  // @override
+  // void onPostEmployeeCheckInFailed() {
+  //   // TODO: implement onPostEmployeeCheckInFailed
+  // }
+  //
+  // @override
+  // void onPostEmployeeCheckInSuccess() {
+  //   // TODO: implement onPostEmployeeCheckInSuccess
+  // }
+  //
+  // @override
+  // void onPostEmployeeDeviceIdFailed() {
+  //   // TODO: implement onPostEmployeeDeviceIdFailed
+  // }
+  //
+  // @override
+  // void onPostEmployeeDeviceIdSuccess(String? deviceId) {
+  //   // TODO: implement onPostEmployeeDeviceIdSuccess
+  // }
+  //
+  // @override
+  // void onVerifyDeviceIdFailed(String msg) {
+  //   // TODO: implement onVerifyDeviceIdFailed
+  // }
+
+  // @override
+  // void onVerifyDeviceIdSuccess([BuildContext? context]) {
+  //   // TODO: implement onVerifyDeviceIdSuccess
+  // }
+  //
+  // @override
+  // void onVerifyLocationFailed(String msg) {
+  //   // TODO: implement onVerifyLocationFailed
+  // }
+  //
+  // @override
+  // void onVerifyLocationSuccess([BuildContext? context]) {
+  //   // TODO: implement onVerifyLocationSuccess
+  // }
 }

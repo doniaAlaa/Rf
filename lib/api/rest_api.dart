@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 
 import '../models/employee.dart';
 
@@ -55,6 +56,7 @@ class RestAPI {
   }
 
   Future<dynamic> getEmployeeBusinessUnitData(String endpoint, String companyId, String unitId) async {
+    print('getEmployeeBusinessUnitData$endpoint');
     return getData('$endpoint/api/Employees/GetEmployeeBusinessUnitData?CmpId=$companyId&UnitId=$unitId');
   }
 
@@ -72,10 +74,16 @@ class RestAPI {
   }
 
   Future<dynamic> postCheckIn(String endpoint, String companyId, int employeeId, DateTime dateTime) async {
-    return postData('$endpoint/api/Employees/EmployeeTimeAttendance', data: [
-      {
-        "CompanyId": companyId,
-        "EmployeeId": employeeId,
+    String?   url =   await SecureStorage().getLoginUrl();
+    String?   compId =   await SecureStorage().getCompId();
+   // return postData('$endpoint/api/Employees/EmployeeTimeAttendance', data: [
+        return postData('$url/api/Employees/EmployeeTimeAttendance', data: [
+
+          {
+      //  "CompanyId": companyId,
+            "CompanyId": compId,
+
+            "EmployeeId": employeeId,
         "AttendanceDate": DateFormat('yyyy/MM/dd').format(dateTime),
         "CheckTime": DateFormat('yyyy/MM/dd HH:mm:ss').format(dateTime),
         "MachineName": 'rf_mobile'
@@ -89,7 +97,7 @@ class RestAPI {
   }
 
   Future<dynamic> getEmployeeAttendance(String endpoint, String companyId, int employeeId, String date) async {
-    return getData('$endpoint/api/Employees/GetEmployeeAttendance?CmpId=100&EmpID=2&AttDate=$date');
+    return getData('$endpoint/api/Employees/GetEmployeeAttendance?CmpId=$companyId&EmpID=2&AttDate=$date');
   }
 
   Future<dynamic> getLeavesList(String endpoint, String companyId, String unitId) async {

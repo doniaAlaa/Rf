@@ -56,12 +56,14 @@ class NewLeavesCubit extends Cubit<NewLeavesState> {
 
 getVacationTypes({required int cmpId, required BuildContext context}) async {
     // emit(VacationTypesLoadingState());
-    emit((state as Data).copyWith(leavesTypeLoading:true));
+  String? compId = await SecureStorage().getCompId();
+
+  emit((state as Data).copyWith(leavesTypeLoading:true));
     ResponseModel response = await NetworkHelper().get(
         endpoint:
-            '/api/Vacations/GetVacationTypes?cmpId=100',
+            '/api/Vacations/GetVacationTypes?cmpId=$compId',
         context: context);
-    print('response =====${response.data?.toString()}');
+    // print('response =====${response.data?.toString()}');
     List body = response.data;
 
     List<VacationType> vacationTypeList =

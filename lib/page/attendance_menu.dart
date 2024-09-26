@@ -1,37 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+
 import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
 import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/const/app_routers.dart';
-// import 'package:test2/core/recognizer.dart';
+import 'package:test2/core/models/user_model.dart';
 import 'package:test2/face_detection/edit_face_detection.dart';
 import 'package:test2/page/control_panel_presenter.dart';
 
-// import 'package:assets_audio_player/assets_audio_player.dart';
-// import 'package:flutter_native_image/flutter_native_image.dart';
-// import 'package:image/image.dart' as img;
 import 'package:m7_livelyness_detection/index.dart';
-// import 'package:test2/api/m7_livelyness_detection-0.0.6+4/lib/index.dart';
-// import 'package:test2/core/const/app_routers.dart';
-// import 'package:test2/core/recognition.dart';
-// import 'package:test2/core/recognizer.dart';
-// import 'package:test2/models/employee.dart';
-// import 'package:test2/page/attendance_menu.dart';
-// import 'package:test2/page/control_panel_presenter.dart';
-// import 'package:test2/page/home_page.dart';
-// import 'package:test2/page/leaves/leaves_menu_options.dart';
-// import 'package:test2/utils/local_db.dart';
+
 
 class AttendanceMenu extends StatefulWidget {
 
     dynamic businessUnitResult;
 
-    ControlPanelPresenter? presenter;
+   // ControlPanelPresenter? presenter;
        dynamic loginResult;
 
 
-   AttendanceMenu({this.businessUnitResult,this.presenter, this.loginResult});
+   AttendanceMenu({this.businessUnitResult,
+    // this.presenter,
+     this.loginResult});
 
   @override
   State<AttendanceMenu> createState() => _AttendanceMenuState();
@@ -39,7 +28,7 @@ class AttendanceMenu extends StatefulWidget {
 
 class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanelContract {
 
-  //  late ControlPanelPresenter _presenter;
+  late ControlPanelPresenter presenter;
 
   // bool _inProgress = true;
 
@@ -50,24 +39,47 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
   // late FaceDetector _faceDetector;
   // late Recognizer _recognizer;
   //
-  // late int _employeeId;
-  // late String _employeeName;
+  late int _employeeId;
+  late String _employeeName;
   late bool _faceRequired;
     String? _deviceId;
 
 
+  _AttendanceMenuState() {
+ //   _presenter = ControlPanelPresenter(this);
+    presenter = ControlPanelPresenter(this);
+
+  }
+
     @override
   void initState() {
     super.initState();
-     print('kkkkkkkkkkkkk${widget.loginResult}');
-   // _employeeId = int.parse(widget.loginResult['id']);
-   //  _employeeName = widget.loginResult['nameEn'];
-   //  _faceRequired = widget.loginResult['faceRequired'];
-   //  _deviceId = widget.loginResult['macAddress'];
+    Future.delayed(Duration.zero, () async{
+      String? userModel = await SecureStorage().getUserModel();
+      Map<String,dynamic> user = jsonDecode(userModel??'');
+      UserModel userModelData = UserModel.fromJson(user);
+      print('kkkkkkkkkkkkk${userModelData.nameEn}');
+      _employeeId = int.parse(userModelData.id??'');
+      _employeeName = userModelData.nameEn??'';
+      _faceRequired =userModelData.faceRequired??false;
+      _deviceId = userModelData.macAddress??'';
+
+      String? e = await SecureStorage().getEmployeeData();
+      // String isJson = e!.replaceAllMapped(RegExp(r'(?<=\{| )\w(.*?)(?=\: |, |})'), (match) {
+      //   return '"${match.group(0)!}"';
+      // });
+      // print(isJson);
+      // print('33$isJson');
+      // print('object$userModel');
+
+     Map<String,dynamic> ee = jsonDecode(e??'');
+      widget.loginResult = user;
+      widget.businessUnitResult =  ee;
+    });
 
 
-   
-  }
+
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +138,10 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
                     children: [
                       InkWell(
                         onTap: (){
-                          // Navigator.pushNamed(context, AppRoutes.checkCheckoutPage);
+                        //  Navigator.pushNamed(context, AppRoutes.checkCheckoutPage);
                          
-                          verifyLocationAndCheckIn(context);
+                       //verifyLocationAndCheckIn(context);
+                       _verifyLocationAndCheckIn();
 
                         },
                         child: const Row(
@@ -186,12 +199,15 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
                         ),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () async{
                           // widget.presenter?.postEmployeeArray('https://jazhotelshr.com/Apitest','100' );
+                          String? url = await SecureStorage().getLoginUrl();
+                          String? compId = await SecureStorage().getCompId();
+
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => EditFaceDetection(
-                                  endpoint: 'https://jazhotelshr.com/Apitest',
-                                  companyId: '100',
+                                  endpoint: url??'',
+                                  companyId: compId??'',
                                   businessUnitResult: widget.businessUnitResult,
                                   loginResult: widget.loginResult)));
                         },
@@ -223,7 +239,8 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
       ),
     );
   }
-  
+
+
   @override
   void onGetEmployeeArraySuccess() {
     // TODO: implement onGetEmployeeArraySuccess
@@ -261,7 +278,11 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
   
   @override
   void onVerifyDeviceIdFailed(String msg) {
-    // TODO: implement onVerifyDeviceIdFailed
+    print('ppppppppppppppppppppppppppp');
+    var snackBar = SnackBar(
+      content: Text(msg),
+    );
+    if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
   
   @override
@@ -274,71 +295,77 @@ class _AttendanceMenuState extends State<AttendanceMenu> implements ControlPanel
   @override
   void onVerifyLocationFailed(String msg) {
     // TODO: implement onVerifyLocationFailed
+    print('klklklk');
   }
   
   @override
   void onVerifyLocationSuccess([BuildContext? context]) {
-    
-        widget.presenter?.verifyDeviceId(_deviceId);
+       print('salwaaaaa${_deviceId}');
+       // widget.presenter?.verifyDeviceId(_deviceId,context);
+       presenter?.verifyDeviceId(_deviceId,context);
+
 
   }
+ //   ControlPanelPresenter? presenter;
+ //
+ //   verifyLocationAndCheckIn([BuildContext? context]) async{
+ //     presenter = ControlPanelPresenter(this);
+ //
+ //     presenter?.verifyDeviceId(_deviceId,context);
+ //
+ //     print('rrrrrrrrrrrrrrrrrrrrrrrr$presenter');
+ //
+ //   //  String? user = await SecureStorage().getUserModel();
+ //  //   Map<String, dynamic> valueMap =jsonDecode(user??'');
+ //
+ // // verifyLocation(valueMap,context);
+ // //     presenter?.verifyLocation(widget.businessUnitResult,context);
+ //
+ //    presenter?.verifyLocation(widget.businessUnitResult,context);
+ //
+ //     // presenter!.verifyLocation(valueMap,context);
+ //     print('fffff${widget.businessUnitResult.toString()}');
+ //
+ //   }
 
-   verifyLocationAndCheckIn([BuildContext? context]) async{
-    // print('jjjjj${widget.businessUnitResult}');
-    //
-    //    //print('anaaaa${userModel.id}');
-   ///  ControlPanelPresenter presenter = ControlPanelPresenter();
-   //  String? user = await SecureStorage().getUserModel();
+  // Future<void> verifyLocation(businessUnitResult,[BuildContext? context]) async {
+  //
+  //
+  //   print('gggggggggggggggggg');
+  //   LocationData locationData = await Location().getLocation();
+  //
+  //   String? user = await SecureStorage().getUserModel();
   //   Map<String, dynamic> valueMap =jsonDecode(user??'');
-
- // verifyLocation(valueMap,context);
- //     presenter?.verifyLocation(widget.businessUnitResult,context);
-     widget.presenter?.verifyLocation(widget.businessUnitResult,context);
-
-     // presenter!.verifyLocation(valueMap,context);
-     print(widget.presenter.runtimeType);
-
-   }
-
-  Future<void> verifyLocation(businessUnitResult,[BuildContext? context]) async {
-
-
-    print('verifyLocation${context?.mounted}');
-    LocationData locationData = await Location().getLocation();
-
-    String? user = await SecureStorage().getUserModel();
-    Map<String, dynamic> valueMap =jsonDecode(user??'');
-    // UserModel userModel = UserModel.fromJson(valueMap);
-    Map data = valueMap;
-
-    // Map data = businessUnitResult["data"];
-    // print(data);
-    // print(data['latitude']);
-
-
-    double distance = _calculateDistance(
-        lat1: locationData.latitude!,
-        lon1: locationData.longitude!,
-        lat2: double.parse(data['latitude']),
-        lon2: double.parse(data['longitude']));
-
-    String? wifiBSSID = await NetworkInfo().getWifiBSSID();
-
-    if ((wifiBSSID != null &&
-        businessUnitResult['MacAdrresslist'] != null &&
-        ((businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toUpperCase()) ||
-            (businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toLowerCase()))) ||
-        // (businessUnitResult['MacAdrresslist'] as List).contains('74:da:88:7f:68:ba')) ||
-        distance < 0.1) {
-
-      //_view.onVerifyLocationSuccess(context);
-      print('onVerifyLocationSuccess');
-    } else {
-   //   _view.onVerifyLocationFailed('Invalid Location/Wi-Fi Network\nMAC Address = $wifiBSSID');
-      print('onVerifyLocationFailed');
-
-    }
-  }
+  //   // UserModel userModel = UserModel.fromJson(valueMap);
+  //   Map data = valueMap['data'];
+  //
+  //   // Map data = businessUnitResult["data"];
+  //   print(data['latitude']);
+  //
+  //
+  //   double distance = _calculateDistance(
+  //       lat1: locationData.latitude!,
+  //       lon1: locationData.longitude!,
+  //       lat2: double.parse(businessUnitResult['latitude']),
+  //       lon2: double.parse(businessUnitResult['longitude']));
+  //
+  //   String? wifiBSSID = await NetworkInfo().getWifiBSSID();
+  //
+  //   if ((wifiBSSID != null &&
+  //       businessUnitResult['MacAdrresslist'] != null &&
+  //       ((businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toUpperCase()) ||
+  //           (businessUnitResult['MacAdrresslist'] as List).contains(wifiBSSID.toLowerCase()))) ||
+  //       // (businessUnitResult['MacAdrresslist'] as List).contains('74:da:88:7f:68:ba')) ||
+  //       distance < 0.1) {
+  //
+  //     //_view.onVerifyLocationSuccess(context);
+  //     print('onVerifyLocationSuccess');
+  //   } else {
+  //  //   _view.onVerifyLocationFailed('Invalid Location/Wi-Fi Network\nMAC Address = $wifiBSSID');
+  //     print('onVerifyLocationFailed');
+  //
+  //   }
+  // }
 
   double _calculateDistance({required double lat1, required double lon1, required double lat2, required double lon2}) {
     var p = 0.017453292519943295;
@@ -411,6 +438,11 @@ if (mounted) {
     // faces = await _faceDetector.processImage(inputImage);
 
     // _performFaceRecognition(register);
+  }
+
+  _verifyLocationAndCheckIn() {
+     print('doniaaaaa${widget.businessUnitResult}');
+    presenter.verifyLocation(widget.businessUnitResult);
   }
 
 }

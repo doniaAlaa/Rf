@@ -10,6 +10,7 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:test2/core/app_local_db/app_local_db.dart';
 import 'package:test2/core/networking/network_helper.dart';
 
 abstract class AuthServices {
@@ -29,9 +30,11 @@ class Auth extends AuthServices {
       required String url,
       required String companyId,
       required BuildContext context}) async {
+
+    String? compId = await SecureStorage().getCompId();
     await NetworkHelper().get(
         endpoint:
-            '/api/Employees/Login?username=M.Kamal&userPassword=1&CmpId=100',
+            '/api/Employees/Login?username=M.Kamal&userPassword=1&CmpId=$compId',
         context: context);
   }
 }

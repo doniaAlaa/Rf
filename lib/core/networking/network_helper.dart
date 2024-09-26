@@ -28,7 +28,6 @@ class NetworkHelper {
   }) async {
     String?   userUrl =   await SecureStorage().getLoginUrl();
 
-    print(userUrl);
 
     try {
             UserModel? userModel;

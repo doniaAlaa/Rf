@@ -11,7 +11,7 @@ class SecureStorage {
   final String _userModel= 'userModel';
   // final String _baseUrl= 'baseUrl';
   final String _compId= 'compId';
-
+  final String _employeeData= 'employeeData';
 
 
 
@@ -29,6 +29,13 @@ class SecureStorage {
   }
 
 
+
+  Future setEmployeeData(String employeeData) async {
+    await storage.write(key: _employeeData, value: employeeData);
+  }
+  Future<String?> getEmployeeData() async {
+    return await storage.read(key: _employeeData);
+  }
 
   Future clearUserAccount() async {
     await storage.delete(key: _userModel, );
